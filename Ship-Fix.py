@@ -27,6 +27,21 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("FIX THE SHIP")
 clock = pygame.time.Clock()
 
+
+game_over = False
+game_over_font = pygame.font.SysFont(None, 100)
+game_over_text = game_over_font.render("THE BOAT SUNK", True, BLACK)
+game_over_text_rect = game_over_text.get_rect(center=(WIDTH // 2, HEIGHT // 4))
+go_bg = pygame.image.load("images/Shipsunk.png")
+go_bg = pygame.transform.scale(go_bg, (WIDTH, HEIGHT))  # Scale the background image to match screen dimensions
+
+game_won = False
+game_won_font = pygame.font.SysFont(None,100)
+game_won_text = game_won_font.render("THE BOAT IS FIXED", True, BLACK)
+game_won_text_rect = game_won_text.get_rect(center=(WIDTH // 2, HEIGHT // 4))
+gw_bg = pygame.image.load("images/SHIPWIN.png")
+gw_bg = pygame.transform.scale(gw_bg, (WIDTH, HEIGHT))  # Scale the background image to match screen dimensions
+
 class Background(pygame.sprite.Sprite):
     def __init__(self, image_file, location):
         pygame.sprite.Sprite.__init__(self)  #call Sprite initializer
@@ -140,12 +155,11 @@ running = True
 while running:
     screen.fill([255, 255, 255])
     screen.blit(BackGround.image, BackGround.rect)
-
-
     # Draw the dock
     pygame.draw.rect(screen, BLACK , (0, DOCK_Y, WIDTH, DOCK_HEIGHT))
     water.update()
     water.draw()
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -177,8 +191,24 @@ while running:
     for plank in planks:
         plank.draw()
 
-
-
+    if water.fill_rate >= HEIGHT:  # Check if fill_rate reaches 800
+        game_over = True
+        # Add game over screen drawing logic here
+        # For example, you can fill the screen with a message like "Game Over" and some instructions
+    if len(planks) == 0:
+        game_won = True
+    if game_over:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+        screen.blit(go_bg, (0, 0))  # Draw the game over background image
+        screen.blit(game_over_text, game_over_text_rect)  # Display the "Game Over" text
+    if game_won:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+        screen.blit(gw_bg, (0,0))
+        screen.blit(game_won_text, game_won_text_rect)
     pygame.display.flip()
     clock.tick(30)
 

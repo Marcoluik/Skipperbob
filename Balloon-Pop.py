@@ -22,13 +22,29 @@ pygame.display.set_caption("Balloon Pop")
 clock = pygame.time.Clock()
 background = background = pygame.image.load("images/Sky_Blue.png")
 background = pygame.transform.scale(background, (WIDTH, HEIGHT))
+background2 = background2 = pygame.image.load("images/FLOTSKY.png")
+background2 = pygame.transform.scale(background2, (WIDTH, HEIGHT))
 balloon_positions = []
 # Balloon class
 class Balloon(pygame.sprite.Sprite):
     def __init__(self, number):
         super().__init__()
         self.number = number
-        self.image = balloon_image  # Loaded balloon image
+        self.images = []
+        self.images.append(pygame.image.load("images/balloon/frame_00_delay-0.3s.gif"))
+        self.images.append(pygame.image.load("images/balloon/frame_01_delay-0.3s.gif"))
+        self.images.append(pygame.image.load("images/balloon/frame_02_delay-0.3s.gif"))
+        self.images.append(pygame.image.load("images/balloon/frame_03_delay-0.3s.gif"))
+        self.images.append(pygame.image.load("images/balloon/frame_04_delay-0.3s.gif"))
+        self.images.append(pygame.image.load("images/balloon/frame_05_delay-0.3s.gif"))
+        self.images.append(pygame.image.load("images/balloon/frame_06_delay-0.3s.gif"))
+        self.images.append(pygame.image.load("images/balloon/frame_07_delay-0.3s.gif"))
+        self.images.append(pygame.image.load("images/balloon/frame_08_delay-0.3s.gif"))
+        self.images.append(pygame.image.load("images/balloon/frame_09_delay-0.3s.gif"))
+        self.index = 0
+        self.image = self.images[self.index]
+        self.rect = pygame.Rect(5, 5, 150, 198)
+
         self.rect = self.image.get_rect()  # Get the image's rectangle
 
         self.rect.center = (random.randint(self.rect.width // 2 + 25, WIDTH - self.rect.width // 2), HEIGHT)
@@ -60,6 +76,18 @@ class Balloon(pygame.sprite.Sprite):
         distance_x = abs(self.rect.centerx - other_rect.centerx)
         distance_y = abs(self.rect.centery - other_rect.centery)
         return distance_x < min_distance and distance_y < min_distance
+
+    def update(self):
+        # when the update method is called, we will increment the index
+        self.index += 1
+
+        # if the index is larger than the total images
+        if self.index >= len(self.images):
+            # we will make the index to 0 again
+            self.index = 0
+
+        # finally we will update the image that will be displayed
+        self.image = self.images[self.index]
 
 balloon_image = pygame.image.load("images/Ballon.png")
 balloon_image = pygame.transform.scale(balloon_image, (256, 256))
@@ -180,6 +208,7 @@ while running:
         if game_started:
 
             screen.fill((135, 206, 235))  # Sky blue background for the game
+            screen.blit(background2,(0,0))
             balloon_sprites.update()
             balloon_sprites.draw(screen)
             for balloon in balloon_sprites:
@@ -343,17 +372,17 @@ while running:
 
                                 equation = f"{num1} {operation} {num2} = ?"
             font = pygame.font.Font(None, 36)
-            equation_text = font.render(equation, True, RED)
+            equation_text = font.render(equation, True, (255,255,255))
             equation_rect = equation_text.get_rect(center=(WIDTH // 2, 40))
             screen.blit(equation_text, equation_rect)
 
             font = pygame.font.Font(None, 36)
-            point_text = font.render(points, True, RED)
+            point_text = font.render(points, True, (0,0,0))
             point_rect = point_text.get_rect(center=(100, HEIGHT - 550))
             screen.blit(point_text, point_rect)
 
             font = pygame.font.Font(None, 36)
-            timer_text = font.render(f"Tid tilbage: {time_remaining} s", True, RED)
+            timer_text = font.render(f"Tid tilbage: {time_remaining} s", True, (0,0,0))
             timer_rect = timer_text.get_rect(center=(WIDTH - 100, HEIGHT - 550))
             screen.blit(timer_text, timer_rect)
 
