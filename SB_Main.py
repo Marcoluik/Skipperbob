@@ -8,16 +8,23 @@ SCREEN_HEIGHT = 720
 SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Main Menu")  # Set the window title
 
+if sys.platform.startswith('win'):
+    # On Windows, use "python"
+    python_command = "python"
+else:
+    # On macOS/Linux, use "python3"
+    python_command = "python3"
 
 # Load og transformers the bg sizings
 BG = pygame.image.load("images/island.png")
 BG = pygame.transform.scale(BG, (SCREEN_WIDTH, SCREEN_HEIGHT))  # Scale the image to fit the screen
 def openmoney():
-    call(["python","./MONEAY_Game.py"])
+    call([python_command,"./MONEAY_Game.py"])
 def openshipfix():
-    call(["python", "./Ship-Fix.py"])
+
+    call([python_command, "./Ship-Fix.py"])
 def openballoonpop():
-    call(["python", "./Balloon-pop.py"])
+    call([python_command, "./Balloon-pop.py"])
 def main_menu():
     while True:
         for event in pygame.event.get():
