@@ -1,28 +1,26 @@
-import arcade
+#imports
 import pygame
 import random
-
-# Initialize pygame
+import SB_Main
+# init pygame
 pygame.init()
 
-# Screen dimensions
-WIDTH, HEIGHT = 800, 600
-
+# Screen dimensions- import main
+HEIGHT = SB_Main.SCREEN_HEIGHT
+WIDTH = SB_Main.SCREEN_WIDTH
 # Dock parameters
 DOCK_HEIGHT = 100
 DOCK_Y = HEIGHT - DOCK_HEIGHT
 PLANK_MARGIN = 20  # space between planks
 GAP_MARGIN = 20 # space between gaps
-
-#bg = pygame.image.load("images/plankbg.png")
-# Colors
+# Colorss
 WHITE = (255, 255, 255)
 BLUE = (70, 130, 180)
 DARK_BLUE = (25, 25, 112)
 CYAN = (0,255,255)
 BLACK = (0,0,0)
 BROWN = (111,78,55)
-# Create the game screen and clock
+# screen-clock
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("FIX THE SHIP")
 clock = pygame.time.Clock()
@@ -33,41 +31,41 @@ game_over_font = pygame.font.SysFont(None, 100)
 game_over_text = game_over_font.render("THE BOAT SUNK", True, BLACK)
 game_over_text_rect = game_over_text.get_rect(center=(WIDTH // 2, HEIGHT // 4))
 go_bg = pygame.image.load("images/Shipsunk.png")
-go_bg = pygame.transform.scale(go_bg, (WIDTH, HEIGHT))  # Scale the background image to match screen dimensions
+go_bg = pygame.transform.scale(go_bg, (WIDTH, HEIGHT))  #scale bg
 
 game_won = False
 game_won_font = pygame.font.SysFont(None,100)
 game_won_text = game_won_font.render("THE BOAT IS FIXED", True, BLACK)
 game_won_text_rect = game_won_text.get_rect(center=(WIDTH // 2, HEIGHT // 4))
 gw_bg = pygame.image.load("images/SHIPWIN.png")
-gw_bg = pygame.transform.scale(gw_bg, (WIDTH, HEIGHT))  # Scale the background image to match screen dimensions
+gw_bg = pygame.transform.scale(gw_bg, (WIDTH, HEIGHT))  #scalebg
 
 class Background(pygame.sprite.Sprite):
     def __init__(self, image_file, location):
-        pygame.sprite.Sprite.__init__(self)  #call Sprite initializer
+        pygame.sprite.Sprite.__init__(self)  #sprite init
         self.image = pygame.image.load(image_file)
         self.rect = self.image.get_rect()
         self.rect.left, self.rect.top = location
+#bg
 BackGround = Background('images/plankbg.png', [0,0])
+#Water Class
 class Water:
     def __init__(self, width, height):
         self.width = width
         self.height = height
         self.surface = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
         self.alpha = 70
-        self.fill_speed = 0.2  # Adjust the fill speed as needed
-        self.fill_rate = 0  # Adjust the fill rate as needed
+        self.fill_rate = 0  #fill rate
 
 
     def update(self):
-        #if self.alpha < 255:
-            #self.alpha = min(self.alpha + self.fill_speed, 255)
-        self.fill_rate = min(self.fill_rate + 1, 800)  # Increment fill rate up to 800
+        #water fill func
+        self.fill_rate = min(self.fill_rate + 1, 800)  #op til 800
         pygame.draw.rect(self.surface, (0, 0, 255, self.alpha), (0, self.height - self.fill_rate, self.width, self.fill_rate))
 
     def draw(self):
         screen.blit(self.surface, (0, 0))
-water = Water(WIDTH, HEIGHT)
+water = Water(WIDTH, HEIGHT) # call
 class Gap:
     def __init__(self, x, y, operation, value):
         self.x = x
@@ -88,13 +86,13 @@ class Plank(pygame.sprite.Sprite):
         self.x = x
         self.y = y
         self.answer = answer
-        self.image = pygame.image.load(image_file)  # Load the image
-        self.rect = self.image.get_rect(topleft=(x, y))  # Use the image's rect
+        self.image = pygame.image.load(image_file)  #img load
+        self.rect = self.image.get_rect(topleft=(x, y))  #img hibox erect
         self.dragging = False
 
 
     def draw(self):
-        screen.blit(self.image, self.rect.topleft)  # Blit the image onto the screen
+        screen.blit(self.image, self.rect.topleft)  #iamge put
         font = pygame.font.SysFont(None, 36)
         text = font.render(str(self.answer), True, WHITE)
         screen.blit(text, (self.x + 40, self.y + 2))
@@ -133,9 +131,8 @@ class Button:
             return False
         return False
 
-# Generate matching problems
+#math problems
 problems = [(random.randint(1, 9), random.randint(1, 9)) for i in range(6)]
-#gaps = [Gap(random.randint(100, 600), random.randint(10, 400), f"{x} + {y}", x + y) for x, y in problems]
 n = len(problems)
 max_gap_width = (WIDTH - (n-1) * GAP_MARGIN) // n
 gaps = [Gap(i * (random.randint(100, max_gap_width) + GAP_MARGIN) + GAP_MARGIN,
@@ -155,7 +152,7 @@ running = True
 while running:
     screen.fill([255, 255, 255])
     screen.blit(BackGround.image, BackGround.rect)
-    # Draw the dock
+    #DOCK
     pygame.draw.rect(screen, BLACK , (0, DOCK_Y, WIDTH, DOCK_HEIGHT))
     water.update()
     water.draw()
@@ -191,18 +188,16 @@ while running:
     for plank in planks:
         plank.draw()
 
-    if water.fill_rate >= HEIGHT:  # Check if fill_rate reaches 800
-        game_over = True
-        # Add game over screen drawing logic here
-        # For example, you can fill the screen with a message like "Game Over" and some instructions
+    if water.fill_rate >= HEIGHT:  #Water fill rate checker for 800 top
+        game_over = True # set gameover
     if len(planks) == 0:
         game_won = True
     if game_over:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-        screen.blit(go_bg, (0, 0))  # Draw the game over background image
-        screen.blit(game_over_text, game_over_text_rect)  # Display the "Game Over" text
+        screen.blit(go_bg, (0, 0))
+        screen.blit(game_over_text, game_over_text_rect)  # game over
     if game_won:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

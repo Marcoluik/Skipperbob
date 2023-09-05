@@ -1,22 +1,20 @@
+#importering
 import pygame
 import random
-
-# Initialize pygame
+import SB_Main
+#pygame init
 pygame.init()
-
+#time def
 game_clock = pygame.time.Clock()
 total_time = 120*1000
 
-
-
+# Screen dimensions- import fra main
+HEIGHT = SB_Main.SCREEN_HEIGHT
+WIDTH = SB_Main.SCREEN_WIDTH
 # Colors
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
-
-# Screen dimensions
-WIDTH, HEIGHT = 1200, 600
-
-# Screen and clock setup
+# Screen setup og tid
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Balloon Pop")
 clock = pygame.time.Clock()
@@ -30,7 +28,7 @@ class Balloon(pygame.sprite.Sprite):
     def __init__(self, number):
         super().__init__()
         self.number = number
-        self.images = []
+        self.images = [] # balloon animation sprites
         self.images.append(pygame.image.load("images/balloon/frame_00_delay-0.3s.gif"))
         self.images.append(pygame.image.load("images/balloon/frame_01_delay-0.3s.gif"))
         self.images.append(pygame.image.load("images/balloon/frame_02_delay-0.3s.gif"))
@@ -45,7 +43,7 @@ class Balloon(pygame.sprite.Sprite):
         self.image = self.images[self.index]
         self.rect = pygame.Rect(5, 5, 150, 198)
 
-        self.rect = self.image.get_rect()  # Get the image's rectangle
+        self.rect = self.image.get_rect()  # Get rect hitbox
 
         self.rect.center = (random.randint(self.rect.width // 2 + 25, WIDTH - self.rect.width // 2), HEIGHT)
         self.speed = random.uniform(0.5, 2.5)
@@ -60,11 +58,14 @@ class Balloon(pygame.sprite.Sprite):
         self.collision_rect = pygame.Rect(self.rect.x + 80, self.rect.y + 60, self.rect.width - 200, self.rect.height - 150)
 
     def move(self):
+        self.min_speed = 1
         self.rect.y -= self.speed
         if self.rect.y < -self.rect.height:
             self.rect.y = HEIGHT
             self.rect.x = random.randint(self.rect.width // 2, WIDTH - self.rect.width // 2)
 
+        if self.speed < self.min_speed:
+            self.speed = self.min_speed
         self.number_rect.center = self.rect.center
         self.collision_rect.topleft = (self.rect.x + 80, self.rect.y + 60)
 
@@ -72,21 +73,17 @@ class Balloon(pygame.sprite.Sprite):
         return self.collision_rect.collidepoint(pos)
 
     def is_overlapping(self, other_rect, min_distance = 75):
-        # Calculate the distance between centers of balloons
+        # Afstand mellem baloons
         distance_x = abs(self.rect.centerx - other_rect.centerx)
         distance_y = abs(self.rect.centery - other_rect.centery)
         return distance_x < min_distance and distance_y < min_distance
 
     def update(self):
-        # when the update method is called, we will increment the index
+        #går igennem index for animation
         self.index += 1
-
-        # if the index is larger than the total images
         if self.index >= len(self.images):
-            # we will make the index to 0 again
             self.index = 0
-
-        # finally we will update the image that will be displayed
+            # her display
         self.image = self.images[self.index]
 
 balloon_image = pygame.image.load("images/Ballon.png")
@@ -96,10 +93,10 @@ balloon_sprites = pygame.sprite.Group()
 for i in range(1, 11):
     new_balloon = Balloon(i)
 
-    max_attempts = 100  # Maximum attempts to find a non-overlapping position
+    max_attempts = 100  # så den ik blir stuck
     attempts = 0
 
-    # Try to find a non-overlapping position for the balloon
+    # nonoverlap
     while any(new_balloon.is_overlapping(rect) for rect in balloon_positions):
         new_balloon.rect.center = (random.randint(new_balloon.rect.width // 2 + 25, WIDTH - new_balloon.rect.width // 2), HEIGHT)
 
@@ -136,7 +133,7 @@ class WinningScreen:
         self.rect = self.text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
 
     def draw(self, screen):
-        screen.fill(RED)  # Fill with red color
+        screen.fill(RED)
         screen.blit(self.text, self.rect)
 
 winning_screen = WinningScreen()
@@ -147,7 +144,7 @@ math_operations = [
     ("*", lambda x, y: x * y),
 ]
 
-# Generate a random math operation and numbers
+# Random math
 operation, func = random.choice(math_operations)
 num1 = random.randint(1, 10)
 num2 = random.randint(11, 20)
@@ -193,28 +190,28 @@ while running:
 
 
     while running:
-        events = pygame.event.get()  # Collect events
+        events = pygame.event.get()
         screen.blit(background, (0, 0))
 
         for event in events:
             if event.type == pygame.QUIT:
                 running = False
 
-            if not game_started and event.type == pygame.MOUSEBUTTONDOWN:  # Event handling for the start button
+            if not game_started and event.type == pygame.MOUSEBUTTONDOWN:
                 if start_button.is_clicked(pygame.mouse.get_pos()):
                     start_time = pygame.time.get_ticks()
                     game_started = True
 
         if game_started:
 
-            screen.fill((135, 206, 235))  # Sky blue background for the game
+            screen.fill((135, 206, 235))  #BG
             screen.blit(background2,(0,0))
             balloon_sprites.update()
             balloon_sprites.draw(screen)
             for balloon in balloon_sprites:
                 balloon.move()
 
-                number_offset = (-25, 100)  # Offset to adjust the position of the number
+                number_offset = (-25, 100)  # For tallets offset
                 number_x = balloon.rect.centerx + number_offset[0]
                 number_y = balloon.rect.y + number_offset[1]
 
@@ -226,18 +223,18 @@ while running:
             time_remaining = max((total_time - elapsed_time) // 1000, 0)
 
             if point == 10:
-                # Display winning screen when the player reaches 10 points
+                # Winning screen
                 game_started = False
                 winning_screen.draw(screen)
                 pygame.display.flip()
-                pygame.time.wait(2000)  # Pause for 2 seconds
+                pygame.time.wait(2000)  #waitin
                 point = 0
                 points = f"Points: {point}"
                 running = False
 
 
             if time_remaining == 0:
-                # Game over logic when time runs out
+                # Gameover for tid
                 game_started = False
                 screen.fill((135, 206, 235))
                 font = pygame.font.Font(None, 72)
@@ -245,7 +242,7 @@ while running:
                 game_over_rect = game_over_text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
                 screen.blit(game_over_text, game_over_rect)
                 pygame.display.flip()
-                pygame.time.wait(2000)  # Pause for 2 seconds
+                pygame.time.wait(2000)  #Waitn
                 operation, func = random.choice(math_operations)
                 num1 = random.randint(11, 20)
                 num2 = random.randint(1, 10)
@@ -298,7 +295,7 @@ while running:
 
                             equation = f"{num1} {operation} {num2} = {result2}"
 
-                            balloon.rect.y = HEIGHT  # Reset the balloon to bottom
+                            balloon.rect.y = HEIGHT  #ballon reset
 
                             if result2 > result:
                                 point -= 1
