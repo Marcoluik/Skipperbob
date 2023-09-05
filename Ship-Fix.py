@@ -55,12 +55,13 @@ class Water:
         self.height = height
         self.surface = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
         self.alpha = 70
+        self.fill_rate_var = 10
         self.fill_rate = 0  #fill rate
 
 
     def update(self):
         #water fill func
-        self.fill_rate = min(self.fill_rate + 1, 800)  #op til 800
+        self.fill_rate = min(self.fill_rate + (self.fill_rate_var/10), 800)  #op til 800
         pygame.draw.rect(self.surface, (0, 0, 255, self.alpha), (0, self.height - self.fill_rate, self.width, self.fill_rate))
 
     def draw(self):
@@ -174,6 +175,7 @@ while running:
                     if gap.rect.colliderect(plank.rect) and gap.value == plank.answer:
                         gaps.remove(gap)
                         planks.remove(plank)
+                        water.fill_rate_var -= 1
                         break
 
     if pygame.mouse.get_pressed()[0]:
