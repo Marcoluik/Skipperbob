@@ -35,7 +35,7 @@ coin_image2 = pygame.transform.scale(coin_image2, (80, 80)) #trans
 coin_image3 = pygame.image.load("images/20.png")
 coin_image3 = pygame.transform.scale(coin_image3, (80, 80)) #trans
 
-start_baggrund = pygame.image.load("images/main.jpg")
+start_baggrund = pygame.image.load("images/pengespil.jpg")
 start_baggrund = pygame.transform.scale(start_baggrund, (screen_width, screen_height))
 
 # Font
