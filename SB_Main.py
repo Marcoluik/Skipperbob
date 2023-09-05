@@ -18,6 +18,13 @@ else:
 # Load og transformers the bg sizings
 BG = pygame.image.load("images/island.png")
 BG = pygame.transform.scale(BG, (SCREEN_WIDTH, SCREEN_HEIGHT))  # Scale the image to fit the screen
+
+
+#knap
+knap = pygame.image.load("images/knap.png")
+knap = pygame.transform.scale(knap, (50, 50))
+
+
 def openmoney():
     call([python_command,"./MONEAY_Game.py"])
 def openshipfix():
@@ -34,12 +41,12 @@ def main_menu():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     pos = pygame.mouse.get_pos()
-                    x_rangeb = range(600, 700)
-                    y_rangeb = range(500, 600)
-                    x_ranges = range(968, 1200)
-                    y_ranges = range(441, 567)
-                    x_rangem = range(459,700)
-                    y_rangem = range(110,250)
+                    x_rangeb = range(700, 750)
+                    y_rangeb = range(520, 570)
+                    x_ranges = range(1175, 1225)
+                    y_ranges = range(480, 530)
+                    x_rangem = range(600, 650)
+                    y_rangem = range(200, 250)
                     print(pos)
                 if pos[0] in x_rangeb and pos[1] in y_rangeb:
                     openballoonpop()
@@ -49,23 +56,14 @@ def main_menu():
                     openmoney()
                     pass
         SCREEN.blit(BG, (0, 0))
-        #Balloon pop start knap
-        font = pygame.font.Font(None, 35)
-        text = font.render("balloon", True, (255, 255, 255))
-        pygame.draw.rect(SCREEN, (255, 0, 0), (600, 500, 100, 100))
-        SCREEN.blit(text, (600+5, 525))
+        # Balloon pop start knap
+        SCREEN.blit(knap, (700, 520))
 
-        #ship-fix start knap
-        font2 = pygame.font.Font(None, 40)
-        text2 = font2.render("båd", True, (255, 255, 255))
-        pygame.draw.rect(SCREEN, (255, 0, 0), (968, 441, 232, 116))
-        SCREEN.blit(text2, (968  + 80, 441 + 40))
+        # ship-fix start knap
+        SCREEN.blit(knap, (1175, 480))
 
-        #pengespil start knap
-        font3 = pygame.font.Font(None, 40)
-        text3 = font3.render("penge", True, (255, 255, 255))
-        pygame.draw.rect(SCREEN, (255, 0, 0), (459, 110, 241, 140))
-        SCREEN.blit(text3, (459+ 80, 110+ 40))
+        # pengespil start knap
+        SCREEN.blit(knap, (600, 200))
 
 
 
