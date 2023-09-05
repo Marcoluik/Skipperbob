@@ -33,9 +33,9 @@ def main_menu():
                     x_rangeb = range(700, 750)
                     y_rangeb = range(520, 570)
                     x_ranges = range(1175, 1225)
-                    y_ranges = range(480, 555)
-                    x_rangem = range(600, 635)
-                    y_rangem = range(200, 235)
+                    y_ranges = range(480, 530)
+                    x_rangem = range(600, 650)
+                    y_rangem = range(200, 250)
                     print(pos)
                 if pos[0] in x_rangeb and pos[1] in y_rangeb:
                     openballoonpop()
