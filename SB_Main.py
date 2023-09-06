@@ -1,11 +1,11 @@
+import os, pygame, sys
 from subprocess import call
-import pygame, sys
-
-pygame.init()
+pygame.init() # KALDES ALLLERFØRST
+os.environ['SDL_VIDEO_CENTERED'] = '1'
+info = pygame.display.Info()
 # Screen setup
-SCREEN_WIDTH = 1280
-SCREEN_HEIGHT = 720
-SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+SCREEN_WIDTH, SCREEN_HEIGHT = info.current_w, info.current_h
+SCREEN = pygame.display.set_mode((SCREEN_WIDTH-10, SCREEN_HEIGHT-50),pygame.RESIZABLE)
 pygame.display.set_caption("Main Menu")  # Set the window title
 
 knap = pygame.image.load("images/knap.png")
@@ -62,6 +62,7 @@ def main_menu():
         SCREEN.blit(knap, (600, 200))
 
         pygame.display.flip()  # Update the display
+
 
 if __name__ == "__main__":
     main_menu()
