@@ -1,6 +1,7 @@
 import os
 from subprocess import call
 import pygame, sys
+from math import floor
 pygame.init()
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 info = pygame.display.Info()
@@ -39,6 +40,7 @@ def openballoonpop():
 
 
 def main_menu():
+    print("Started")
     with open("moneygame_done.txt.txt", "w") as fil:
         fil.write("0")
     with open("shipgame_done.txt.txt", "w") as fil:
@@ -64,14 +66,14 @@ def main_menu():
 
                     pos = pygame.mouse.get_pos()
                     #ballonspil
-                    x_rangeb = range(480, 530)
-                    y_rangeb = range(590, 640)
+                    x_rangeb = range(int(0.38*(SCREEN_WIDTH)), int(0.38*(SCREEN_WIDTH) + 50))
+                    y_rangeb = range(int(0.82*(SCREEN_HEIGHT)), int(0.82*floor(SCREEN_HEIGHT) + 50))
                     #skib
-                    x_ranges = range(1065, 1115)
-                    y_ranges = range(480, 530)
+                    x_ranges = range(int(0.835*SCREEN_WIDTH), int(0.835*SCREEN_WIDTH + 50))
+                    y_ranges = range(int(0.65*SCREEN_HEIGHT), int(0.65*SCREEN_HEIGHT + 50))
                     #moneygame
-                    x_rangem = range(375, 425)
-                    y_rangem = range(200, 250)
+                    x_rangem = range(int(0.286*SCREEN_WIDTH), int(0.286*SCREEN_WIDTH + 50))
+                    y_rangem = range(int(0.25*SCREEN_HEIGHT), int(0.25*SCREEN_HEIGHT + 50))
 
                 if pos[0] in x_rangeb and pos[1] in y_rangeb and not balloongame_done:
                     openballoonpop()
@@ -83,21 +85,21 @@ def main_menu():
         SCREEN.blit(BG, (0, 0))
         # Balloon pop start knap
         if not balloongame_done:
-            SCREEN.blit(knap, (480, 590))
+            SCREEN.blit(knap, (int(0.38*(SCREEN_WIDTH)), (int(0.82*(SCREEN_HEIGHT)))))
         else:
-            SCREEN.blit(knap_faerdig, (480, 590))
+            SCREEN.blit(knap_faerdig, (int(0.38*(SCREEN_WIDTH)), (int(0.82*(SCREEN_HEIGHT)))))
 
         # ship-fix start knap
         if not shipgame_done:
-            SCREEN.blit(knap, (1065, 480))
+            SCREEN.blit(knap, (int(0.835*SCREEN_WIDTH), int(0.65*SCREEN_HEIGHT)))
         else:
-            SCREEN.blit(knap_faerdig, (1065, 480))
+            SCREEN.blit(knap_faerdig, (int(0.835*SCREEN_WIDTH), int(0.65*SCREEN_HEIGHT)))
 
         # pengespil start knap
         if not moneygame_done:
-            SCREEN.blit(knap, (375, 200))
+            SCREEN.blit(knap, (int(0.286*SCREEN_WIDTH), int(0.25*SCREEN_HEIGHT)))
         else:
-            SCREEN.blit(knap_faerdig, (375, 200))
+            SCREEN.blit(knap_faerdig, (int(0.286*SCREEN_WIDTH), int(0.25*SCREEN_HEIGHT)))
 
 
 
