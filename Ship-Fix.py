@@ -9,10 +9,10 @@ pygame.init()
 HEIGHT = SB_Main.SCREEN_HEIGHT
 WIDTH = SB_Main.SCREEN_WIDTH
 # Dock parameters
-DOCK_HEIGHT = 100
+DOCK_HEIGHT = int(0.15*HEIGHT)
 DOCK_Y = HEIGHT - DOCK_HEIGHT
-PLANK_MARGIN = 20  # space between planks
-GAP_MARGIN = 20 # space between gaps
+PLANK_MARGIN = int(0.02*WIDTH)  # space between planks
+GAP_MARGIN = int(0.02*WIDTH) # space between gaps
 # Colorss
 WHITE = (255, 255, 255)
 BLUE = (70, 130, 180)
@@ -44,10 +44,11 @@ class Background(pygame.sprite.Sprite):
     def __init__(self, image_file, location):
         pygame.sprite.Sprite.__init__(self)  #sprite init
         self.image = pygame.image.load(image_file)
+        self.image = pygame.transform.scale(self.image, (WIDTH, HEIGHT))
         self.rect = self.image.get_rect()
         self.rect.left, self.rect.top = location
 #bg
-BackGround = Background('images/plankbg.png', [0,0])
+BackGround = Background('images/plankbg.png', (0, 0))
 #Water Class
 class Water:
     def __init__(self, width, height):
@@ -55,12 +56,13 @@ class Water:
         self.height = height
         self.surface = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
         self.alpha = 70
+        self.fill_rate_var = 10
         self.fill_rate = 0  #fill rate
 
 
     def update(self):
         #water fill func
-        self.fill_rate = min(self.fill_rate + 1, 800)  #op til 800
+        self.fill_rate = min(self.fill_rate + (self.fill_rate_var/10), 800)  #op til 800
         pygame.draw.rect(self.surface, (0, 0, 255, self.alpha), (0, self.height - self.fill_rate, self.width, self.fill_rate))
 
     def draw(self):
@@ -101,36 +103,6 @@ class Plank(pygame.sprite.Sprite):
         self.rect.topleft = (x, y)
         self.x, self.y = x, y
 
-class Button:
-    def __init__(self,x,y,width,height,fg,bg,content,fontsize):
-        self.FONT = pygame.font.SysFont('Arial', 60)
-        self.content = content
-
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-
-        self.fg = fg
-        self.bg = bg
-
-        self.image = pygame.Surface((self.width,self.height))
-        self.image.fill(self.bg)
-        self.rect = self.image.get_rect()
-
-        self.rect.x = self.x
-        self.rect.y = self.y
-
-        self.text = self.FONT.render(self.content,True,self.fg)
-        self.text_rect = self.text.get_rect(center=(self.width/2,self.height/2))
-        self.image.blit(self.text,self.text_rect)
-    def is_pressed(self,pos,pressed):
-        if self.rect.collidepoint(pos):
-            if pressed[0]:
-                return True
-            return False
-        return False
-
 #math problems
 problems = [(random.randint(1, 9), random.randint(1, 9)) for i in range(6)]
 n = len(problems)
@@ -139,12 +111,22 @@ gaps = [Gap(i * (random.randint(100, max_gap_width) + GAP_MARGIN) + GAP_MARGIN,
             random.randint(10, 400),
             f"{x} + {y}",
             x + y) for i, (x, y) in enumerate(problems)]
-planks = [Plank(i * (100 + PLANK_MARGIN) + PLANK_MARGIN,
-                DOCK_Y + (DOCK_HEIGHT - 30) // 2,
-                x + y,
-                'images/wood.jpeg',  # Replace this with the actual image path
-                [0, 0]) for i, (x, y) in enumerate(problems)]
+plank_width = int(0.15 * WIDTH)  # 15% of the screen width
+plank_height = int(0.1 * HEIGHT)  # 5% of the screen height
+#Calculate the total width of all planks
+random.seed(42)
+random.shuffle(problems)
+random.shuffle(gaps)
+total_width = len(problems) * (100 + PLANK_MARGIN) + PLANK_MARGIN
 
+#Calculate the starting x-coordinate for centering
+start_x = (WIDTH - total_width) // 2
+#Create planks with centered positions
+planks = [Plank(start_x + i * (100 + PLANK_MARGIN) + PLANK_MARGIN,
+               DOCK_Y*0.95 + (DOCK_HEIGHT - 30) // 2,
+               x + y,
+               'images/wood.jpeg',
+               [0, 0]) for i, (x, y) in enumerate(problems)]
 
 
 
@@ -153,7 +135,7 @@ while running:
     screen.fill([255, 255, 255])
     screen.blit(BackGround.image, BackGround.rect)
     #DOCK
-    pygame.draw.rect(screen, BLACK , (0, DOCK_Y, WIDTH, DOCK_HEIGHT))
+    pygame.draw.rect(screen, BLACK , (0, DOCK_Y, WIDTH+10, DOCK_HEIGHT))
     water.update()
     water.draw()
 
@@ -174,7 +156,11 @@ while running:
                     if gap.rect.colliderect(plank.rect) and gap.value == plank.answer:
                         gaps.remove(gap)
                         planks.remove(plank)
+                        water.fill_rate_var -= 1
                         break
+        if event.type == pygame.VIDEORESIZE:
+            WIDTH, HEIGHT = event.size
+            BackGround.image = pygame.transform.smoothscale(BackGround.image, (WIDTH+100, HEIGHT+100))
 
     if pygame.mouse.get_pressed()[0]:
         x, y = pygame.mouse.get_pos()
@@ -191,19 +177,27 @@ while running:
     if water.fill_rate >= HEIGHT:  #Water fill rate checker for 800 top
         game_over = True # set gameover
     if len(planks) == 0:
+        with open("shipgame_done.txt.txt", "w") as fil:
+            fil.write("1")
         game_won = True
     if game_over:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
         screen.blit(go_bg, (0, 0))
-        screen.blit(game_over_text, game_over_text_rect)  # game over
+        screen.blit(game_over_text, game_over_text_rect)  # game over''
+        pygame.display.flip()
+        pygame.time.wait(2000)
+        running = False
     if game_won:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
         screen.blit(gw_bg, (0,0))
         screen.blit(game_won_text, game_won_text_rect)
+        pygame.display.flip()
+        pygame.time.wait(2000)
+        running = False
     pygame.display.flip()
     clock.tick(30)
 
