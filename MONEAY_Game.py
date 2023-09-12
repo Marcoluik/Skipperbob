@@ -7,7 +7,7 @@ import SB_Main
 pygame.init()
 
 game_clock = pygame.time.Clock()
-total_time = 120 * 1000
+total_time = 180 * 1000
 clock = pygame.time.Clock()
 
 

@@ -27,6 +27,7 @@ BG = pygame.transform.scale(BG, (SCREEN_WIDTH, SCREEN_HEIGHT))  # Scale the imag
 knap = pygame.image.load("images/knap.png")
 knap = pygame.transform.scale(knap, (50, 50))
 
+#faerdig knap (graa)
 knap_faerdig = pygame.image.load("images/knap2.png")
 knap_faerdig = pygame.transform.scale(knap_faerdig, (50, 50))
 

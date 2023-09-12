@@ -62,7 +62,7 @@ class Water:
 
     def update(self):
         #water fill func
-        self.fill_rate = min(self.fill_rate + (self.fill_rate_var/10), 800)  #op til 800
+        self.fill_rate = min(self.fill_rate + (self.fill_rate_var/10), HEIGHT)  #op til 800
         pygame.draw.rect(self.surface, (0, 0, 255, self.alpha), (0, self.height - self.fill_rate, self.width, self.fill_rate))
 
     def draw(self):
