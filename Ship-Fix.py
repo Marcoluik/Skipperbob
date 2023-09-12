@@ -193,6 +193,8 @@ while running:
     if water.fill_rate >= HEIGHT:  #Water fill rate checker for 800 top
         game_over = True # set gameover
     if len(planks) == 0:
+        with open("shipgame_done.txt.txt", "w") as fil:
+            fil.write("1")
         game_won = True
     if game_over:
         for event in pygame.event.get():
@@ -206,6 +208,7 @@ while running:
                 running = False
         screen.blit(gw_bg, (0,0))
         screen.blit(game_won_text, game_won_text_rect)
+        running = False
     pygame.display.flip()
     clock.tick(30)
 

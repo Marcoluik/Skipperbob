@@ -15,6 +15,8 @@ clock = pygame.time.Clock()
 screen_height = SB_Main.SCREEN_HEIGHT
 screen_width = SB_Main.SCREEN_WIDTH
 
+moneygame_done = False
+
 # Colors
 blue = (135, 206, 235)
 white = (255, 255, 255)
@@ -37,6 +39,9 @@ coin_image3 = pygame.transform.scale(coin_image3, (80, 80)) #trans
 
 start_baggrund = pygame.image.load("images/main.jpg")
 start_baggrund = pygame.transform.scale(start_baggrund, (screen_width, screen_height))
+
+spil_baggrund = pygame.image.load("images/pengebaggrund.png")
+spil_baggrund = pygame.transform.scale(spil_baggrund, (screen_width, screen_height))
 
 # Font
 font = pygame.font.Font(None, 36)
@@ -161,7 +166,7 @@ while running:
 
 
         if game_started:
-            screen.fill(blue)
+            screen.blit(spil_baggrund, (0, 0))
             current_time = pygame.time.get_ticks()
             elapsed_time = current_time - start_time
             time_remaining = max((total_time - elapsed_time) // 1000, 0)
@@ -219,9 +224,13 @@ while running:
                         circle_rect = coin_image3.get_rect(center=circle_position)
                         screen.blit(coin_image3, circle_rect)
 
-            if point == 10:#win
+            if point == 1:#win
+                with open("moneygame_done.txt.txt", "w") as fil:
+                    fil.write("1")
+                SB_Main.pygame.display.flip()
                 winning_screen.draw(screen)
                 pygame.display.flip()
+                moneygame_done = True
                 pygame.time.wait(2000)  # paus
                 running = False
 

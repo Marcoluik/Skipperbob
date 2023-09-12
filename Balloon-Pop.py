@@ -222,8 +222,11 @@ while running:
             elapsed_time = current_time - start_time
             time_remaining = max((total_time - elapsed_time) // 1000, 0)
 
-            if point == 10:
+            if point == 1:
                 # Winning screen
+                with open("balloongame_done.txt.txt", "w") as fil:
+                    fil.write("1")
+                SB_Main.pygame.display.flip()
                 game_started = False
                 winning_screen.draw(screen)
                 pygame.display.flip()
