@@ -1,12 +1,13 @@
+import os
 from subprocess import call
 import pygame, sys
-
-
 pygame.init()
+os.environ['SDL_VIDEO_CENTERED'] = '1'
+info = pygame.display.Info()
+
 # Screen setup
-SCREEN_WIDTH = 1280
-SCREEN_HEIGHT = 720
-SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+SCREEN_WIDTH, SCREEN_HEIGHT = info.current_w, info.current_h
+SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT),pygame.RESIZABLE)
 pygame.display.set_caption("Main Menu")  # Set the window title
 
 if sys.platform.startswith('win'):
