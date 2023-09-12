@@ -14,6 +14,7 @@ WIDTH = SB_Main.SCREEN_WIDTH
 # Colors
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
+blue = (135, 206, 235)
 # Screen setup og tid
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Balloon Pop")
@@ -129,11 +130,11 @@ class StartButton:
 class WinningScreen:
     def __init__(self):
         self.font = pygame.font.Font(None, 72)
-        self.text = self.font.render("Congratulations!", True, WHITE)
+        self.text = self.font.render("Tillykke, du har hjulpet beboerne!", True, WHITE)
         self.rect = self.text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
 
     def draw(self, screen):
-        screen.fill(RED)
+        screen.fill(blue)
         screen.blit(self.text, self.rect)
 
 winning_screen = WinningScreen()
@@ -222,7 +223,7 @@ while running:
             elapsed_time = current_time - start_time
             time_remaining = max((total_time - elapsed_time) // 1000, 0)
 
-            if point == 1:
+            if point == 10:
                 # Winning screen
                 with open("balloongame_done.txt.txt", "w") as fil:
                     fil.write("1")
@@ -292,7 +293,7 @@ while running:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     for balloon in balloon_sprites:
                         if balloon.is_clicked(pygame.mouse.get_pos()):
-                            print(f"Popped balloon with number {balloon.number}")
+
 
                             result2 += balloon.number
 

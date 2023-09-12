@@ -76,7 +76,7 @@ class WinningScreen:
         self.rect = self.text.get_rect(center=(screen_width // 2, screen_height // 2))
 
     def draw(self, screen):
-        screen.fill(blue)  # Fill with red color
+        screen.fill(blue)
         screen.blit(self.text, self.rect)
 
 class StartButton:
@@ -145,7 +145,7 @@ while running:
                             if all(input_completed):
                                 point += 1
                                 points = f"Points: {point}"
-                                print("All inputs are correct! Resetting...")
+
                                 # reset variable
                                 input_texts = ["", "", ""]
                                 input_completed = [False, False, False]
@@ -204,7 +204,7 @@ while running:
                 if input_completed[i]:
                     text_color = light_gray
                 else:
-                    text_color = black
+                    text_color = white
                 text_surface = font.render(input_texts[i], True, text_color)
                 screen.blit(text_surface, (x_pos + 10, input_area_y_position + 10))
 
@@ -224,7 +224,7 @@ while running:
                         circle_rect = coin_image3.get_rect(center=circle_position)
                         screen.blit(coin_image3, circle_rect)
 
-            if point == 1:#win
+            if point == 10:#win
                 with open("moneygame_done.txt.txt", "w") as fil:
                     fil.write("1")
                 SB_Main.pygame.display.flip()

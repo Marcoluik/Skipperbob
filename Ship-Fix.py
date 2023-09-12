@@ -201,13 +201,18 @@ while running:
             if event.type == pygame.QUIT:
                 running = False
         screen.blit(go_bg, (0, 0))
-        screen.blit(game_over_text, game_over_text_rect)  # game over
+        screen.blit(game_over_text, game_over_text_rect)  # game over''
+        pygame.dislay.flip()
+        pygame.time.wait(2000)
+        running = False
     if game_won:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
         screen.blit(gw_bg, (0,0))
         screen.blit(game_won_text, game_won_text_rect)
+        pygame.display.flip()
+        pygame.time.wait(2000)
         running = False
     pygame.display.flip()
     clock.tick(30)
