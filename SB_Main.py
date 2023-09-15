@@ -38,6 +38,11 @@ def openshipfix():
     call([python_command, "./Ship-Fix.py"])
 def openballoonpop():
     call([python_command, "./Balloon-pop.py"])
+def opentraehusspil():
+    call([python_command, "./traehusspil.py"])
+
+def openflappybird():
+    call([python_command, "./game5.py"])
 
 
 def main_menu():
@@ -48,9 +53,15 @@ def main_menu():
         fil.write("0")
     with open("balloongame_done.txt.txt", "w") as fil:
         fil.write("0")
+    with open("traehusspil_done.txt.txt", "w") as fil:
+        fil.write("0")
+    with open("flappybirdspil_done.txt.txt", "w") as fil:
+        fil.write("0")
     moneygame_done = False
     shipgame_done = False
     balloongame_done = False
+    treegame_done = False
+    birdgame_done = False
     while True:
         with open("moneygame_done.txt.txt", "r") as fil:
             moneygame_done = fil.readline(1) == "1"
@@ -58,6 +69,11 @@ def main_menu():
             shipgame_done = fil.readline(1) == "1"
         with open("balloongame_done.txt.txt", "r") as fil:
             balloongame_done = fil.readline(1) == "1"
+        with open("traehusspil_done.txt.txt", "r") as fil:
+            treegame_done = fil.readline(1) == "1"
+        with open("flappybirdspil_done.txt.txt", "r") as fil:
+            birdgame_done = fil.readline(1) == "1"
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -76,12 +92,23 @@ def main_menu():
                     x_rangem = range(int(0.286*SCREEN_WIDTH), int(0.286*SCREEN_WIDTH + 50))
                     y_rangem = range(int(0.25*SCREEN_HEIGHT), int(0.25*SCREEN_HEIGHT + 50))
 
+                    x_rangea = range(int(0.755*SCREEN_WIDTH), int(0.755*SCREEN_WIDTH + 50))
+                    y_rangea = range(int(0.32*SCREEN_HEIGHT), int(0.32*SCREEN_HEIGHT + 50))
+
+                    x_rangez = range(int(0.153*SCREEN_WIDTH), int(0.153*SCREEN_WIDTH + 50))
+                    y_rangez = range(int(0.4 * SCREEN_HEIGHT), int(0.4 * SCREEN_HEIGHT + 50))
+
+
                 if pos[0] in x_rangeb and pos[1] in y_rangeb and not balloongame_done:
                     openballoonpop()
                 if pos[0] in x_ranges and pos[1] in y_ranges and not shipgame_done:
                     openshipfix()
                 if pos[0] in x_rangem and pos[1] in y_rangem and not moneygame_done:
                     openmoney()
+                if pos[0] in x_rangea and pos[1] in y_rangea and not treegame_done:
+                    opentraehusspil()
+                if pos[0] in x_rangez and pos[1] in y_rangez and not birdgame_done:
+                    openflappybird()
                     pass
         SCREEN.blit(BG, (0, 0))
         # Balloon pop start knap
@@ -101,6 +128,17 @@ def main_menu():
             SCREEN.blit(knap, (int(0.286*SCREEN_WIDTH), int(0.25*SCREEN_HEIGHT)))
         else:
             SCREEN.blit(knap_faerdig, (int(0.286*SCREEN_WIDTH), int(0.25*SCREEN_HEIGHT)))
+
+        if not treegame_done:
+            SCREEN.blit(knap, (int(0.755*SCREEN_WIDTH), int(0.32*SCREEN_HEIGHT)))
+        else:
+            SCREEN.blit(knap_faerdig, (int(0.755*SCREEN_WIDTH), int(0.32*SCREEN_HEIGHT)))
+
+        if not birdgame_done:
+            SCREEN.blit(knap, (int(0.153*SCREEN_WIDTH), int(0.4*SCREEN_HEIGHT)))
+        else:
+            SCREEN.blit(knap_faerdig, (int(0.153*SCREEN_WIDTH), int(0.4*SCREEN_HEIGHT)))
+
 
 
 

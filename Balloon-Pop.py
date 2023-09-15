@@ -232,8 +232,6 @@ while running:
                 winning_screen.draw(screen)
                 pygame.display.flip()
                 pygame.time.wait(2000)  #waitin
-                point = 0
-                points = f"Points: {point}"
                 running = False
 
 
