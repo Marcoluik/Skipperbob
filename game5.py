@@ -85,14 +85,27 @@ class EquationBox:
         self.equation = equation
         self.surface = SCREEN
         self.is_correct = is_correct
+        self.speed = 1
 
     def draw(self):
         pygame.draw.rect(self.surface, BLACK, (self.x, self.y, self.width, self.height))
         font = pygame.font.Font(None, 36)
-        text_color = WHITE if self.is_correct else RED  # Color the correct equation differently
+        text_color = RED  # Color the correct equation differently
         text = font.render(self.equation, True, text_color)
         text_rect = text.get_rect(center=(self.x + self.width / 2, self.y + self.height / 2))
         self.surface.blit(text, text_rect)
+    def update(self):
+        speed_save = self.speed
+        self.x += self.speed
+
+        if self.x >= SCREEN_WIDTH:
+            self.x = 0 - self.width
+
+    def stop(self):
+        self.speed = 0
+    def start(self):
+        self.speed = 1
+
 
 class WinningScreen:
     def __init__(self):
@@ -144,8 +157,10 @@ while running:
     SCREEN.fill(sky_blue)
     for box in equations:
         box.draw()
+        box.update()
     Player.draw()
     Player.update()
+
 
     # Check if a collision has been detected and record the collision time
     if collision_detected and collision_time is None:
@@ -161,6 +176,8 @@ while running:
         Player.gravity = 0.0982
         Player.color = YELLOW
         Player.going_right = True
+        for box in equations:
+            box.start()
 
 
 
@@ -186,7 +203,7 @@ while running:
         collision_detected = False
         collision_time = None
 
-        if points == 1:
+        if points == 10:
             # Winning screen
             with open("flappybirdspil_done.txt.txt", "w") as fil:
                 fil.write("1")
@@ -206,6 +223,8 @@ while running:
         Player.gravity = 0.0982
         Player.color = YELLOW
         Player.going_right = True
+        for box in equations:
+            box.start()
 
 
         # Generate new equations and choose a new correct equation
@@ -242,6 +261,8 @@ while running:
             Player.y = box.y
             points += 1
             point = f"Points: {points}"
+            for box in equations:
+                box.stop()
 
 
         if Player.check_collision(box) and not box.is_correct and not collision_detected:
@@ -252,20 +273,23 @@ while running:
             Player.color = RED  # Change player color to green upon collision with correct equation
             Player.x = box.x
             Player.y = box.y
+            for box in equations:
+                box.stop()
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
-        elif event.type == pygame.MOUSEBUTTONDOWN and not collision_detected:
-            if Player.going_right:
-                Player.speed_y -= 2
-                Player.speed_x = 2
-                Player.gravity = 0.0982
-            if not Player.going_right:
-                Player.speed_y -= 2
-                Player.speed_x = -2
-                Player.gravity = 0.0982
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE and not collision_detected:
+                if Player.going_right:
+                    Player.speed_y -= 2
+                    Player.speed_x = 2
+                    Player.gravity = 0.0982
+                if not Player.going_right:
+                    Player.speed_y -= 2
+                    Player.speed_x = -2
+                    Player.gravity = 0.0982
 
 
 

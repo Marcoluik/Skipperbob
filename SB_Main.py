@@ -83,18 +83,22 @@ def main_menu():
 
                     pos = pygame.mouse.get_pos()
                     #ballonspil
-                    x_rangeb = range(int(0.38*(SCREEN_WIDTH)), int(0.38*(SCREEN_WIDTH) + 50))
-                    y_rangeb = range(int(0.82*(SCREEN_HEIGHT)), int(0.82*floor(SCREEN_HEIGHT) + 50))
+                    x_rangeb = range(int(0.38*(SCREEN_WIDTH)), int(0.38*(SCREEN_WIDTH + 50)))
+                    y_rangeb = range(int(0.82*(SCREEN_HEIGHT)), int(0.82*(SCREEN_HEIGHT + 50)))
+
                     #skib
                     x_ranges = range(int(0.835*SCREEN_WIDTH), int(0.835*SCREEN_WIDTH + 50))
                     y_ranges = range(int(0.65*SCREEN_HEIGHT), int(0.65*SCREEN_HEIGHT + 50))
+
                     #moneygame
                     x_rangem = range(int(0.286*SCREEN_WIDTH), int(0.286*SCREEN_WIDTH + 50))
                     y_rangem = range(int(0.25*SCREEN_HEIGHT), int(0.25*SCREEN_HEIGHT + 50))
 
+                    #treegame
                     x_rangea = range(int(0.755*SCREEN_WIDTH), int(0.755*SCREEN_WIDTH + 50))
                     y_rangea = range(int(0.32*SCREEN_HEIGHT), int(0.32*SCREEN_HEIGHT + 50))
 
+                    #flappybird
                     x_rangez = range(int(0.153*SCREEN_WIDTH), int(0.153*SCREEN_WIDTH + 50))
                     y_rangez = range(int(0.4 * SCREEN_HEIGHT), int(0.4 * SCREEN_HEIGHT + 50))
 
