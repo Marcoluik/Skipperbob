@@ -5,7 +5,10 @@ import sys
 import SB_Main
 # Init
 pygame.init()
-
+pygame.mixer.stop()
+pygame.mixer.music.load('Music/PIRATES OF THE QUARNTINE.mp3')
+pygame.mixer.music.set_volume(0.2)
+pygame.mixer.music.play(2, 00.00, 50)
 game_clock = pygame.time.Clock()
 total_time = 120 * 1000
 clock = pygame.time.Clock()

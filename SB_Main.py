@@ -1,6 +1,9 @@
 import os
 from subprocess import call
+import subprocess
 import pygame, sys
+import threading
+pygame.mixer.pre_init(44100, -16, 2, 2048)
 pygame.init()
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 info = pygame.display.Info()
@@ -9,6 +12,13 @@ info = pygame.display.Info()
 SCREEN_WIDTH, SCREEN_HEIGHT = info.current_w, info.current_h
 SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT),pygame.RESIZABLE)
 pygame.display.set_caption("Main Menu")  # Set the window title
+#Pygame Background Music
+def play_music():
+    pygame.mixer.music.load('Music/Sea Shanty.mp3')
+    pygame.mixer.music.set_volume(0.2)
+    pygame.mixer.music.play(2, 23.00, 50)
+play_music()
+
 
 if sys.platform.startswith('win'):
     # On Windows, use "python"
@@ -31,7 +41,7 @@ knap_faerdig = pygame.transform.scale(knap_faerdig, (50, 50))
 
 
 def openmoney():
-    call([python_command,"./MONEAY_Game.py"])
+    call([python_command, "./MONEAY_Game.py"])
 def openshipfix():
     call([python_command, "./Ship-Fix.py"])
 def openballoonpop():
@@ -51,8 +61,10 @@ def main_menu():
     while True:
         with open("moneygame_done.txt.txt", "r") as fil:
             moneygame_done = fil.readline(1) == "1"
+
         with open("shipgame_done.txt.txt", "r") as fil:
             shipgame_done = fil.readline(1) == "1"
+
         with open("balloongame_done.txt.txt", "r") as fil:
             balloongame_done = fil.readline(1) == "1"
         for event in pygame.event.get():
@@ -63,6 +75,7 @@ def main_menu():
                 if event.button == 1:
 
                     pos = pygame.mouse.get_pos()
+                    pygame.mixer.music.stop()
                     #ballonspil
                     x_rangeb = range(480, 530)
                     y_rangeb = range(590, 640)
@@ -102,7 +115,6 @@ def main_menu():
 
 
         pygame.display.flip()  # Update the display
-
 if __name__ == "__main__":
     main_menu()
 

@@ -4,6 +4,10 @@ import random
 import SB_Main
 #pygame init
 pygame.init()
+pygame.mixer.stop()
+pygame.mixer.music.load('Music/SEVEN_SEAS.mp3')
+pygame.mixer.music.set_volume(0.2)
+pygame.mixer.music.play(2, 00.00, 50)
 #time def
 game_clock = pygame.time.Clock()
 total_time = 120*1000

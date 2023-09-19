@@ -2,9 +2,12 @@
 import pygame
 import random
 import SB_Main
-# init pygame
-pygame.init()
 
+pygame.init()
+pygame.mixer.stop()
+pygame.mixer.music.load('Music/A_ROBUST_CREW.mp3')
+pygame.mixer.music.set_volume(0.2)
+pygame.mixer.music.play(2, 00.00, 50)
 # Screen dimensions- import main
 HEIGHT = SB_Main.SCREEN_HEIGHT
 WIDTH = SB_Main.SCREEN_WIDTH
@@ -49,6 +52,7 @@ class Background(pygame.sprite.Sprite):
         self.rect.left, self.rect.top = location
 #bg
 BackGround = Background('images/plankbg.png', (0, 0))
+
 #Water Class
 class Water:
     def __init__(self, width, height):
@@ -94,6 +98,7 @@ class Plank(pygame.sprite.Sprite):
 
 
     def draw(self):
+
         screen.blit(self.image, self.rect.topleft)  #iamge put
         font = pygame.font.SysFont(None, 36)
         text = font.render(str(self.answer), True, WHITE)
