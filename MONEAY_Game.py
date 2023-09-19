@@ -10,7 +10,7 @@ pygame.mixer.music.load('Music/PIRATES OF THE QUARNTINE.mp3')
 pygame.mixer.music.set_volume(0.2)
 pygame.mixer.music.play(2, 00.00, 50)
 game_clock = pygame.time.Clock()
-total_time = 120 * 1000
+total_time = 180 * 1000
 clock = pygame.time.Clock()
 
 
@@ -31,14 +31,14 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("MONAYGAME")
 
 
-coin_image = pygame.image.load("images/5.png")
-coin_image = pygame.transform.scale(coin_image, (80, 80))  #trans
+coin_image = pygame.image.load("images/5-coin.png")
+coin_image = pygame.transform.scale(coin_image, (100, 100))  #trans
 
-coin_image2 = pygame.image.load("images/10.png")
-coin_image2 = pygame.transform.scale(coin_image2, (80, 80)) #trans
+coin_image2 = pygame.image.load("images/10-coin.png")
+coin_image2 = pygame.transform.scale(coin_image2, (100, 100)) #trans
 
-coin_image3 = pygame.image.load("images/20.png")
-coin_image3 = pygame.transform.scale(coin_image3, (80, 80)) #trans
+coin_image3 = pygame.image.load("images/20-coin.png")
+coin_image3 = pygame.transform.scale(coin_image3, (100, 100)) #trans
 
 start_baggrund = pygame.image.load("images/main.jpg")
 start_baggrund = pygame.transform.scale(start_baggrund, (screen_width, screen_height))
@@ -63,7 +63,7 @@ input_completed = [False, False, False]
 circle_positions_list = []
 for x_pos in input_area_x_positions:
     num_circles = random.randint(1, 6)
-    circle_positions = [(x_pos + input_area_width // 2, input_area_y_position - 30 - i * 45) for i in range(num_circles)]
+    circle_positions = [(x_pos + input_area_width // 2, input_area_y_position - 40 - i * 65) for i in range(num_circles)]
     circle_positions_list.append(circle_positions)
     if x_pos == 1:
         correct_input[0] += str((num_circles) * 5)
@@ -157,7 +157,7 @@ while running:
                                 for x_pos in input_area_x_positions:
                                     num_circles = random.randint(1, 6)
                                     circle_positions = [
-                                        (x_pos + input_area_width // 2, input_area_y_position - 30 - i * 45) for i
+                                        (x_pos + input_area_width // 2, input_area_y_position - 40 - i * 65) for i
                                         in range(num_circles)]
                                     circle_positions_list.append(circle_positions)
                                     if x_pos == 1:
