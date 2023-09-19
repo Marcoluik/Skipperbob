@@ -2,6 +2,7 @@
 import pygame
 import random
 import SB_Main
+import sys
 # init pygame
 pygame.init()
 pygame.mixer.stop()
@@ -42,6 +43,24 @@ game_won_text = game_won_font.render("THE BOAT IS FIXED", True, BLACK)
 game_won_text_rect = game_won_text.get_rect(center=(WIDTH // 2, HEIGHT // 4))
 gw_bg = pygame.image.load("images/game end boat good end.png")
 gw_bg = pygame.transform.scale(gw_bg, (WIDTH, HEIGHT))  #scalebg
+def pause_game():
+    paused = True
+    while paused:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                paused = False
+
+        # Display the pause screen
+        screen.fill((0, 0, 0))
+        font = pygame.font.SysFont(None, 72)
+        text = font.render("Game Paused", True, (255, 255, 255))
+        screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2 - text.get_height() // 2))
+
+        pygame.display.flip()
+
 
 class Background(pygame.sprite.Sprite):
     def __init__(self, image_file, location):
@@ -146,7 +165,9 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                pause_game()
         if event.type == pygame.MOUSEBUTTONDOWN:
             for plank in planks:
                 if plank.rect.collidepoint(event.pos):

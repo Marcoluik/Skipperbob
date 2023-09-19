@@ -23,6 +23,23 @@ GREEN = (0, 255, 0)
 # Create the screen
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Drag and Drop Game")
+def pause_game():
+    paused = True
+    while paused:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                paused = False
+
+        # Display the pause screen
+        screen.fill((0, 0, 0))
+        font = pygame.font.SysFont(None, 72)
+        text = font.render("Game Paused", True, (255, 255, 255))
+        screen.blit(text, (SCREEN_WIDTH // 2 - text.get_width() // 2, SCREEN_HEIGHT // 2 - text.get_height() // 2))
+
+        pygame.display.flip()
 
 # Square class
 class Square:
@@ -101,6 +118,9 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                pause_game()
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 for square in squares:

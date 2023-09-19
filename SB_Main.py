@@ -18,6 +18,23 @@ def play_music():
     pygame.mixer.music.set_volume(0.2)
     pygame.mixer.music.play(2, 23.00, 50)
 play_music()
+def pause_game():
+    paused = True
+    while paused:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                paused = False
+
+        # Display the pause screen
+        screen.fill((0, 0, 0))
+        font = pygame.font.SysFont(None, 72)
+        text = font.render("Game Paused", True, (255, 255, 255))
+        screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2 - text.get_height() // 2))
+
+        pygame.display.flip()
 
 
 if sys.platform.startswith('win'):

@@ -2,6 +2,7 @@
 import pygame
 import random
 import SB_Main
+import sys
 #pygame init
 pygame.init()
 pygame.mixer.stop()
@@ -31,6 +32,24 @@ background2 = background2 = pygame.image.load("images/FLOTSKY.png")
 background2 = pygame.transform.scale(background2, (WIDTH, HEIGHT))
 balloon_positions = []
 # Balloon class
+def pause_game():
+    paused = True
+    while paused:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                paused = False
+
+        # Display the pause screen
+        screen.fill((0, 0, 0))
+        font = pygame.font.SysFont(None, 72)
+        text = font.render("Game Paused", True, (255, 255, 255))
+        screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2 - text.get_height() // 2))
+
+        pygame.display.flip()
+
 class Balloon(pygame.sprite.Sprite):
     def __init__(self, number):
         super().__init__()
@@ -203,7 +222,9 @@ while running:
         for event in events:
             if event.type == pygame.QUIT:
                 running = False
-
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    pause_game()
             if not game_started and event.type == pygame.MOUSEBUTTONDOWN:
                 if start_button.is_clicked(pygame.mouse.get_pos()):
                     start_time = pygame.time.get_ticks()

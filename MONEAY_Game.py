@@ -71,6 +71,23 @@ for x_pos in input_area_x_positions:
         correct_input[1] += str((num_circles) * 10)
     if x_pos == 2 * input_area_width + 1:
         correct_input[2] += str((num_circles) * 20)
+def pause_game():
+    paused = True
+    while paused:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                paused = False
+
+        # Display the pause screen
+        screen.fill((0, 0, 0))
+        font = pygame.font.SysFont(None, 72)
+        text = font.render("Game Paused", True, (255, 255, 255))
+        screen.blit(text, (screen_width // 2 - text.get_width() // 2, screen_height // 2 - text.get_height() // 2))
+
+        pygame.display.flip()
 
 class WinningScreen:
     def __init__(self):
@@ -130,7 +147,9 @@ while running:
                     for i, x_pos in enumerate(input_area_x_positions):
                         if x_pos < mouse_x < x_pos + input_area_width and input_area_y_position < mouse_y < input_area_y_position + input_area_height:
                             active_input = i
-
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        pause_game()
                 elif event.type == pygame.KEYDOWN:
                     if active_input != -1:
                         if not input_completed[active_input]:  #Only if not complete

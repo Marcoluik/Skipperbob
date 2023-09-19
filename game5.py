@@ -1,7 +1,7 @@
 import pygame
 import random
 import SB_Main
-
+import sys
 pygame.init()
 SCREEN_WIDTH = SB_Main.SCREEN_WIDTH
 SCREEN_HEIGHT = SB_Main.SCREEN_HEIGHT
@@ -16,6 +16,23 @@ YELLOW = (255, 255, 0)
 GREEN = (0, 255, 0)
 background = pygame.image.load("images/korn mark.png")
 background = pygame.transform.scale(background, (SCREEN_WIDTH, SCREEN_HEIGHT))  # Scale the image to fit the screen
+def pause_game():
+    paused = True
+    while paused:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                paused = False
+
+        # Display the pause screen
+        SCREEN.fill((0, 0, 0))
+        font = pygame.font.SysFont(None, 72)
+        text = font.render("Game Paused", True, (255, 255, 255))
+        SCREEN.blit(text, (SCREEN_WIDTH // 2 - text.get_width() // 2, SCREEN_HEIGHT // 2 - text.get_height() // 2))
+
+        pygame.display.flip()
 
 class character:
     def __init__(self, x, y, width, height, speed_x, speed_y):
@@ -298,6 +315,9 @@ while running:
                 box.stop()
 
     for event in pygame.event.get():
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                pause_game()
         if event.type == pygame.QUIT:
             running = False
 
