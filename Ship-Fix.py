@@ -92,8 +92,8 @@ class Plank(pygame.sprite.Sprite):
         self.y = y
         self.answer = answer
         self.image = pygame.image.load(image_file)  #img load
-        self.image = pygame.transform.scale(self.image, (200, 100))
-        self.rect = self.image.get_rect(topleft=(x, y))  #img hibox erect
+        self.image = pygame.transform.scale(self.image, (130, 100))
+        self.rect = self.image.get_rect(topleft=(x, y-30))  #img hibox erect
         self.dragging = False
 
 
@@ -104,7 +104,7 @@ class Plank(pygame.sprite.Sprite):
         screen.blit(text, (self.x + 40, self.y + 2))
 
     def move(self, x, y):
-        self.rect.topleft = (x, y)
+        self.rect.topleft = (x, y-30)
         self.x, self.y = x, y
 
 #math problems
