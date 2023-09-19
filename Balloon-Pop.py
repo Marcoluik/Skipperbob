@@ -8,9 +8,11 @@ pygame.mixer.stop()
 pygame.mixer.music.load('Music/SEVEN_SEAS.mp3')
 pygame.mixer.music.set_volume(0.2)
 pygame.mixer.music.play(2, 00.00, 50)
+pop_sfx = pygame.mixer.Sound('Music/pop.mp3')
+correct_sfx = pygame.mixer.Sound('Music/correct.mp3')
 #time def
 game_clock = pygame.time.Clock()
-total_time = 3*1000
+total_time = 3*10000
 
 # Screen dimensions- import fra main
 HEIGHT = SB_Main.SCREEN_HEIGHT
@@ -256,6 +258,7 @@ while running:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     for balloon in balloon_sprites:
                         if balloon.is_clicked(pygame.mouse.get_pos()):
+                            pop_sfx.play()
 
 
                             result2 += balloon.number
@@ -299,6 +302,7 @@ while running:
                                 equation = f"{num1} {operation} {num2} = ?"
 
                             if result2 == result:
+                                correct_sfx.play()
                                 point += 1
                                 points = f"Points: {point}"
                                 operation, func = random.choice(math_operations)
