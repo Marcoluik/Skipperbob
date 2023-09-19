@@ -35,7 +35,7 @@ class character:
 
     def draw(self):
         pygame.draw.rect(self.surface, self.color, (self.x, self.y, self.width, self.height))
-        font = pygame.font.Font(None, 24)
+        font = pygame.font.Font(None, 36)
         result_text = font.render(self.result, True, BLACK)
         result_rect = result_text.get_rect(center=(self.x + self.width / 2, self.y + self.height/2))
         self.surface.blit(result_text, result_rect)
@@ -125,23 +125,32 @@ Player = character(SCREEN_WIDTH/2 - 50, SCREEN_HEIGHT/2 - 50, 100, 100, 2, 0)
 equation_operators = ['+', '-', '*']
 equations = []
 box_width = 100
-gap = 175  # Adjust the gap between boxes
+gap = (SCREEN_WIDTH - 5*box_width)/5  # Adjust the gap between boxes
 
-# Calculate the total width with gaps
-total_width = 5 * (box_width + gap) - gap
+
 
 # Calculate the start_x value to center the equation boxes
-start_x = (SCREEN_WIDTH - total_width) / 2
+start_x = ((SCREEN_WIDTH - 5*box_width)/5)/2
 
 correct_equation_index = random.randint(0, 4)  # Randomly select the index of the correct equation
 
-for i in range(5):
+generated_equations = set()
+
+# Generate unique equations without division
+while len(generated_equations) < 5:
     num1 = random.randint(1, 10)
     num2 = random.randint(1, 10)
     operator = random.choice(equation_operators)
     equation = f"{num1} {operator} {num2}"
-    is_correct = (i == correct_equation_index)  # Mark one equation as the correct equation
-    equations.append(EquationBox(i * (box_width + gap) + start_x, int(SCREEN_HEIGHT/8), box_width, 100, equation, is_correct))
+
+    # Check if the equation is already generated, if not, add it to the set
+    if equation not in generated_equations:
+        generated_equations.add(equation)
+        is_correct = (
+                    len(generated_equations) == correct_equation_index + 1)  # Mark one equation as the correct equation
+        equations.append(
+            EquationBox(len(generated_equations) * (box_width + gap) + start_x, int(SCREEN_HEIGHT / 8), box_width, 100,
+                        equation, is_correct))
 
 # Set the character's equation and result to the correct equation
 Player.equation = equations[correct_equation_index].equation
@@ -155,6 +164,16 @@ point = f"Points: {points}"
 
 while running:
     SCREEN.fill(sky_blue)
+    font = pygame.font.Font(None, 36)
+    point_text = font.render(point, True, (0, 0, 0))
+    point_rect = point_text.get_rect(center=(100, SCREEN_HEIGHT - 550))
+    SCREEN.blit(point_text, point_rect)
+
+    font = pygame.font.Font(None, 30)
+    text_guide = "Tryk MELLEMRUM for at flyve"
+    guide_text = font.render(text_guide, True, (WHITE))
+    guide_rect = guide_text.get_rect(center=(SCREEN_WIDTH / 2, int(SCREEN_HEIGHT /1.5)))
+    SCREEN.blit(guide_text, guide_rect)
     for box in equations:
         box.draw()
         box.update()
@@ -171,7 +190,7 @@ while running:
         # Reset the box's position to the center of the screen
         Player.x = SCREEN_WIDTH/2 - 50
         Player.y = SCREEN_HEIGHT/2 - 50
-        Player.speed_x = 2
+        Player.speed_x = 3
         Player.speed_y = 0
         Player.gravity = 0.0982
         Player.color = YELLOW
@@ -203,7 +222,7 @@ while running:
         collision_detected = False
         collision_time = None
 
-        if points == 10:
+        if points == 5:
             # Winning screen
             with open("flappybirdspil_done.txt.txt", "w") as fil:
                 fil.write("1")
@@ -218,7 +237,7 @@ while running:
         # Reset the box's position to the center of the screen
         Player.x = SCREEN_WIDTH/2 - 50
         Player.y = SCREEN_HEIGHT/2 - 50
-        Player.speed_x = 2
+        Player.speed_x = 3
         Player.speed_y = 0
         Player.gravity = 0.0982
         Player.color = YELLOW
@@ -284,19 +303,16 @@ while running:
             if event.key == pygame.K_SPACE and not collision_detected:
                 if Player.going_right:
                     Player.speed_y -= 2
-                    Player.speed_x = 2
+                    Player.speed_x = 3
                     Player.gravity = 0.0982
                 if not Player.going_right:
                     Player.speed_y -= 2
-                    Player.speed_x = -2
+                    Player.speed_x = -3
                     Player.gravity = 0.0982
 
 
 
-    font = pygame.font.Font(None, 36)
-    point_text = font.render(point, True, (0, 0, 0))
-    point_rect = point_text.get_rect(center=(100, SCREEN_HEIGHT - 550))
-    SCREEN.blit(point_text, point_rect)
+
 
     pygame.display.flip()
     clock.tick(60)

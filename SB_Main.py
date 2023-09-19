@@ -24,12 +24,12 @@ BG = pygame.transform.scale(BG, (SCREEN_WIDTH, SCREEN_HEIGHT))  # Scale the imag
 
 
 #knap
-knap = pygame.image.load("images/knap.png")
-knap = pygame.transform.scale(knap, (50, 50))
+knap = pygame.image.load("images/red-button.png")
+knap = pygame.transform.scale(knap, (80, 60))
 
 #faerdig knap (graa)
-knap_faerdig = pygame.image.load("images/knap2.png")
-knap_faerdig = pygame.transform.scale(knap_faerdig, (50, 50))
+knap_faerdig = pygame.image.load("images/gray-button.png")
+knap_faerdig = pygame.transform.scale(knap_faerdig, (80, 60))
 
 
 def openmoney():
@@ -83,24 +83,24 @@ def main_menu():
 
                     pos = pygame.mouse.get_pos()
                     #ballonspil
-                    x_rangeb = range(int(0.38*(SCREEN_WIDTH)), int(0.38*(SCREEN_WIDTH + 50)))
-                    y_rangeb = range(int(0.82*(SCREEN_HEIGHT)), int(0.82*(SCREEN_HEIGHT + 50)))
+                    x_rangeb = range(int(0.38*(SCREEN_WIDTH)), int(0.38*SCREEN_WIDTH + 80))
+                    y_rangeb = range(int(0.82*(SCREEN_HEIGHT)), int(0.82*SCREEN_HEIGHT + 60))
 
                     #skib
-                    x_ranges = range(int(0.835*SCREEN_WIDTH), int(0.835*SCREEN_WIDTH + 50))
-                    y_ranges = range(int(0.65*SCREEN_HEIGHT), int(0.65*SCREEN_HEIGHT + 50))
+                    x_ranges = range(int(0.835*SCREEN_WIDTH), int(0.835*SCREEN_WIDTH + 80))
+                    y_ranges = range(int(0.65*SCREEN_HEIGHT), int(0.65*SCREEN_HEIGHT + 60))
 
                     #moneygame
-                    x_rangem = range(int(0.286*SCREEN_WIDTH), int(0.286*SCREEN_WIDTH + 50))
-                    y_rangem = range(int(0.25*SCREEN_HEIGHT), int(0.25*SCREEN_HEIGHT + 50))
+                    x_rangem = range(int(0.286*SCREEN_WIDTH), int(0.286*SCREEN_WIDTH + 80))
+                    y_rangem = range(int(0.25*SCREEN_HEIGHT), int(0.25*SCREEN_HEIGHT + 60))
 
                     #treegame
-                    x_rangea = range(int(0.755*SCREEN_WIDTH), int(0.755*SCREEN_WIDTH + 50))
-                    y_rangea = range(int(0.32*SCREEN_HEIGHT), int(0.32*SCREEN_HEIGHT + 50))
+                    x_rangea = range(int(0.755*SCREEN_WIDTH), int(0.755*SCREEN_WIDTH + 80))
+                    y_rangea = range(int(0.32*SCREEN_HEIGHT), int(0.32*SCREEN_HEIGHT + 60))
 
                     #flappybird
-                    x_rangez = range(int(0.153*SCREEN_WIDTH), int(0.153*SCREEN_WIDTH + 50))
-                    y_rangez = range(int(0.4 * SCREEN_HEIGHT), int(0.4 * SCREEN_HEIGHT + 50))
+                    x_rangez = range(int(0.153*SCREEN_WIDTH), int(0.153*SCREEN_WIDTH + 80))
+                    y_rangez = range(int(0.4 * SCREEN_HEIGHT), int(0.4 * SCREEN_HEIGHT + 60))
 
 
                 if pos[0] in x_rangeb and pos[1] in y_rangeb and not balloongame_done:

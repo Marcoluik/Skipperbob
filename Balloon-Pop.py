@@ -6,7 +6,7 @@ import SB_Main
 pygame.init()
 #time def
 game_clock = pygame.time.Clock()
-total_time = 120*1000
+total_time = 3*1000
 
 # Screen dimensions- import fra main
 HEIGHT = SB_Main.SCREEN_HEIGHT
@@ -245,47 +245,8 @@ while running:
                 screen.blit(game_over_text, game_over_rect)
                 pygame.display.flip()
                 pygame.time.wait(2000)  #Waitn
-                operation, func = random.choice(math_operations)
-                num1 = random.randint(11, 20)
-                num2 = random.randint(1, 10)
-                result = func(num1, num2)
-                if result2 > result:
-                    point = 0
-                    points = f"Points: {point}"
-                    operation, func = random.choice(math_operations)
-                    num1 = random.randint(11, 20)
-                    num2 = random.randint(1, 10)
-                    result = 1
-                    result = func(num1, num2)
-                    result2 = 0
+                running = False
 
-                    while not isinstance(result, int):
-                        operation, func = random.choice(math_operations)
-                        num1 = random.randint(11, 20)
-                        num2 = random.randint(1, 10)
-                        result = func(num1, num2)
-
-                    while result == 0:
-                        operation, func = random.choice(math_operations)
-                        num1 = random.randint(11, 20)
-                        num2 = random.randint(1, 10)
-                        result = func(num1, num2)
-
-                    while result < 0:
-                        operation, func = random.choice(math_operations)
-                        num1 = random.randint(11, 20)
-                        num2 = random.randint(1, 10)
-                        result = func(num1, num2)
-
-                    while result > 100:
-                        operation, func = random.choice(math_operations)
-                        num1 = random.randint(11, 20)
-                        num2 = random.randint(1, 10)
-                        result = func(num1, num2)
-
-                    equation = f"{num1} {operation} {num2} = ?"
-                point = 0
-                break
 
             for event in events:
                 if event.type == pygame.MOUSEBUTTONDOWN:
@@ -300,8 +261,6 @@ while running:
                             balloon.rect.y = HEIGHT  #ballon reset
 
                             if result2 > result:
-                                point -= 1
-                                points = f"Points: {point}"
                                 operation, func = random.choice(math_operations)
                                 num1 = random.randint(11, 20)
                                 num2 = random.randint(1, 10)
@@ -370,7 +329,7 @@ while running:
                                     result = func(num1, num2)
 
                                 equation = f"{num1} {operation} {num2} = ?"
-            font = pygame.font.Font(None, 36)
+            font = pygame.font.Font(None, 60)
             equation_text = font.render(equation, True, (255,255,255))
             equation_rect = equation_text.get_rect(center=(WIDTH // 2, 40))
             screen.blit(equation_text, equation_rect)
