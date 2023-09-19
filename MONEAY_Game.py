@@ -141,15 +141,16 @@ while running:
                     game_started = True
 
             if game_started:
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        pause_game()
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     mouse_x, mouse_y = pygame.mouse.get_pos()
                     active_input = -1
                     for i, x_pos in enumerate(input_area_x_positions):
                         if x_pos < mouse_x < x_pos + input_area_width and input_area_y_position < mouse_y < input_area_y_position + input_area_height:
                             active_input = i
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_ESCAPE:
-                        pause_game()
+
                 elif event.type == pygame.KEYDOWN:
                     if active_input != -1:
                         if not input_completed[active_input]:  #Only if not complete

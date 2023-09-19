@@ -41,6 +41,7 @@ def pause_game():
                 sys.exit()
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 paused = False
+        clock.tick(0)
 
         # Display the pause screen
         screen.fill((0, 0, 0))
