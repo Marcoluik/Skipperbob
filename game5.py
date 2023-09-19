@@ -14,6 +14,8 @@ RED = (255, 0, 0)
 WHITE = (255, 255, 255)
 YELLOW = (255, 255, 0)
 GREEN = (0, 255, 0)
+background = pygame.image.load("images/korn mark.png")
+background = pygame.transform.scale(background, (SCREEN_WIDTH, SCREEN_HEIGHT))  # Scale the image to fit the screen
 
 class character:
     def __init__(self, x, y, width, height, speed_x, speed_y):
@@ -163,7 +165,7 @@ points = 0
 point = f"Points: {points}"
 
 while running:
-    SCREEN.fill(sky_blue)
+    SCREEN.blit(background, (0, 0))
     font = pygame.font.Font(None, 36)
     point_text = font.render(point, True, (0, 0, 0))
     point_rect = point_text.get_rect(center=(100, SCREEN_HEIGHT - 550))

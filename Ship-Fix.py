@@ -30,14 +30,14 @@ game_over = False
 game_over_font = pygame.font.SysFont(None, 100)
 game_over_text = game_over_font.render("THE BOAT SUNK", True, BLACK)
 game_over_text_rect = game_over_text.get_rect(center=(WIDTH // 2, HEIGHT // 4))
-go_bg = pygame.image.load("images/Shipsunk.png")
+go_bg = pygame.image.load("images/game end boat.png")
 go_bg = pygame.transform.scale(go_bg, (WIDTH, HEIGHT))  #scale bg
 
 game_won = False
 game_won_font = pygame.font.SysFont(None,100)
 game_won_text = game_won_font.render("THE BOAT IS FIXED", True, BLACK)
 game_won_text_rect = game_won_text.get_rect(center=(WIDTH // 2, HEIGHT // 4))
-gw_bg = pygame.image.load("images/SHIPWIN.png")
+gw_bg = pygame.image.load("images/game end boat good end.png")
 gw_bg = pygame.transform.scale(gw_bg, (WIDTH, HEIGHT))  #scalebg
 
 class Background(pygame.sprite.Sprite):
@@ -48,7 +48,7 @@ class Background(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.left, self.rect.top = location
 #bg
-BackGround = Background('images/plankbg.png', (0, 0))
+BackGround = Background('images/untitled-1.png', (0, 0))
 #Water Class
 class Water:
     def __init__(self, width, height):
@@ -89,6 +89,7 @@ class Plank(pygame.sprite.Sprite):
         self.y = y
         self.answer = answer
         self.image = pygame.image.load(image_file)  #img load
+        self.image = pygame.transform.scale(self.image, (200, 100))
         self.rect = self.image.get_rect(topleft=(x, y))  #img hibox erect
         self.dragging = False
 
@@ -125,7 +126,7 @@ start_x = (WIDTH - total_width) // 2
 planks = [Plank(start_x + i * (100 + PLANK_MARGIN) + PLANK_MARGIN,
                DOCK_Y*0.95 + (DOCK_HEIGHT - 30) // 2,
                x + y,
-               'images/wood.jpeg',
+               'images/plank.png',
                [0, 0]) for i, (x, y) in enumerate(problems)]
 
 
