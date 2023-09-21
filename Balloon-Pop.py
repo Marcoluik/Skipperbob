@@ -13,7 +13,7 @@ pop_sfx = pygame.mixer.Sound('Music/pop.mp3')
 correct_sfx = pygame.mixer.Sound('Music/correct.mp3')
 #time def
 game_clock = pygame.time.Clock()
-total_time = 3*10000
+total_time = 180*1000
 
 # Screen dimensions- import fra main
 HEIGHT = SB_Main.SCREEN_HEIGHT

@@ -44,9 +44,9 @@ else:
     # On macOS/Linux, use "python3"
     python_command = "python3"
 
-# Load og transformers the bg sizings
+# Indlaese og skalerer baggrundsbilledet
 BG = pygame.image.load("images/skipperbob.png")
-BG = pygame.transform.scale(BG, (SCREEN_WIDTH, SCREEN_HEIGHT))  # Scale the image to fit the screen
+BG = pygame.transform.scale(BG, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
 
 #knap
@@ -173,7 +173,7 @@ def main_menu():
 
 
 
-        pygame.display.flip()  # Update the display
+        pygame.display.flip()  # opdaterer displayet
 
 if __name__ == "__main__":
     main_menu()

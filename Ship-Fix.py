@@ -32,14 +32,14 @@ clock = pygame.time.Clock()
 
 game_over = False
 game_over_font = pygame.font.SysFont(None, 100)
-game_over_text = game_over_font.render("THE BOAT SUNK", True, BLACK)
+game_over_text = game_over_font.render("Båden sank!", True, BLACK)
 game_over_text_rect = game_over_text.get_rect(center=(WIDTH // 2, HEIGHT // 4))
 go_bg = pygame.image.load("images/game end boat.png")
 go_bg = pygame.transform.scale(go_bg, (WIDTH, HEIGHT))  #scale bg
 
 game_won = False
 game_won_font = pygame.font.SysFont(None,100)
-game_won_text = game_won_font.render("THE BOAT IS FIXED", True, BLACK)
+game_won_text = game_won_font.render("Båden er blevet repareret!", True, BLACK)
 game_won_text_rect = game_won_text.get_rect(center=(WIDTH // 2, HEIGHT // 4))
 gw_bg = pygame.image.load("images/game end boat good end.png")
 gw_bg = pygame.transform.scale(gw_bg, (WIDTH, HEIGHT))  #scalebg

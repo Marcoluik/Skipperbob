@@ -34,6 +34,9 @@ def pause_game():
 
         pygame.display.flip()
 
+yellow_bird = pygame.image.load("images/yellow bird.png")
+yellow_bird = pygame.transform.scale(yellow_bird, (100, 100))
+
 class character:
     def __init__(self, x, y, width, height, speed_x, speed_y):
         self.x = x
@@ -105,6 +108,14 @@ class EquationBox:
         self.surface = SCREEN
         self.is_correct = is_correct
         self.speed = 1
+        self.going_right = True
+        right_or_left = random.randint(0, 1)
+        if right_or_left == 0:
+            self.going_right = False
+            self.y += 60
+        else:
+            self.going_right = True
+            self.y += -60
 
     def draw(self):
         pygame.draw.rect(self.surface, BLACK, (self.x, self.y, self.width, self.height))
@@ -114,11 +125,16 @@ class EquationBox:
         text_rect = text.get_rect(center=(self.x + self.width / 2, self.y + self.height / 2))
         self.surface.blit(text, text_rect)
     def update(self):
-        speed_save = self.speed
-        self.x += self.speed
+        if self.going_right:
+            self.x += self.speed
+        else:
+            self.speed = -1
+            self.x += self.speed
 
-        if self.x >= SCREEN_WIDTH:
+        if self.x >= SCREEN_WIDTH and self.going_right:
             self.x = 0 - self.width
+        if self.x <= 0 - self.width and not self.going_right:
+            self.x = SCREEN_WIDTH + self.width
 
     def stop(self):
         self.speed = 0
@@ -161,15 +177,18 @@ while len(generated_equations) < 5:
     num2 = random.randint(1, 10)
     operator = random.choice(equation_operators)
     equation = f"{num1} {operator} {num2}"
-
+    i = 0
     # Check if the equation is already generated, if not, add it to the set
     if equation not in generated_equations:
+        i += 1
         generated_equations.add(equation)
         is_correct = (
                     len(generated_equations) == correct_equation_index + 1)  # Mark one equation as the correct equation
         equations.append(
             EquationBox(len(generated_equations) * (box_width + gap) + start_x, int(SCREEN_HEIGHT / 8), box_width, 100,
                         equation, is_correct))
+
+
 
 # Set the character's equation and result to the correct equation
 Player.equation = equations[correct_equation_index].equation
@@ -182,7 +201,8 @@ points = 0
 point = f"Points: {points}"
 
 while running:
-    SCREEN.blit(background, (0, 0))
+    #SCREEN.blit(background, (0, 0))
+    SCREEN.fill(sky_blue)
     font = pygame.font.Font(None, 36)
     point_text = font.render(point, True, (0, 0, 0))
     point_rect = point_text.get_rect(center=(100, SCREEN_HEIGHT - 550))
