@@ -10,7 +10,11 @@ pygame.mixer.music.load('Music/SEVEN_SEAS.mp3')
 pygame.mixer.music.set_volume(0.2)
 pygame.mixer.music.play(2, 00.00, 50)
 pop_sfx = pygame.mixer.Sound('Music/pop.mp3')
-correct_sfx = pygame.mixer.Sound('Music/correct.mp3')
+correct_sfx = pygame.mixer.Sound('Music/correctsound.mp3')
+correct_sfx.set_volume(1.5)
+wrong_sfx = pygame.mixer.Sound("Music/buzzerwronganswer.mp3")
+wrong_sfx.set_volume(0.5)
+
 #time def
 game_clock = pygame.time.Clock()
 total_time = 180*1000
@@ -290,6 +294,7 @@ while running:
                             balloon.rect.y = HEIGHT  #ballon reset
 
                             if result2 > result:
+                                wrong_sfx.play()
                                 operation, func = random.choice(math_operations)
                                 num1 = random.randint(11, 20)
                                 num2 = random.randint(1, 10)

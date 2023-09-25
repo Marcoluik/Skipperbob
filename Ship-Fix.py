@@ -9,7 +9,9 @@ pygame.mixer.stop()
 pygame.mixer.music.load('Music/A_ROBUST_CREW.mp3')
 pygame.mixer.music.set_volume(0.2)
 pygame.mixer.music.play(2, 00.00, 50)
-correct_sfx = pygame.mixer.Sound('Music/correct.mp3')
+correct_sfx = pygame.mixer.Sound('Music/planksound.mp3')
+water_sfx = pygame.mixer.Sound("Music/water.mp3")
+water_sfx.set_volume(0.2)
 # Screen dimensions- import main
 HEIGHT = SB_Main.SCREEN_HEIGHT
 WIDTH = SB_Main.SCREEN_WIDTH
@@ -81,12 +83,17 @@ class Water:
         self.alpha = 70
         self.fill_rate_var = 10
         self.fill_rate = 0  #fill rate
+        self.vand = 0
+
 
 
     def update(self):
         #water fill func
+        self.vand += 1
         self.fill_rate = min(self.fill_rate + (self.fill_rate_var/10), HEIGHT)  #op til 800
         pygame.draw.rect(self.surface, (0, 0, 255, self.alpha), (0, self.height - self.fill_rate, self.width, self.fill_rate))
+        if not self.vand%60:
+            water_sfx.play()
 
     def draw(self):
         screen.blit(self.surface, (0, 0))
