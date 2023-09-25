@@ -36,11 +36,14 @@ def pause_game():
 
         pygame.display.flip()
 
-yellow_bird = pygame.image.load("images/yellow bird.png")
-yellow_bird = pygame.transform.scale(yellow_bird, (100, 100))
+yellowbird_image = pygame.image.load("images/yellow bird.png")
+yellowbird_image = pygame.transform.scale(yellowbird_image, (100, 100))
 
-class character:
+
+class character(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height, speed_x, speed_y):
+        super().__init__()
+
         self.x = x
         self.y = y
         self.width = width
@@ -48,26 +51,25 @@ class character:
         self.speed_x = speed_x
         self.speed_y = speed_y
         self.surface = SCREEN
+        self.image = yellowbird_image
         self.gravity = 0.0982
         self.is_falling = True
         self.going_right = True
         self.color = YELLOW
-
         # Initialize the character's equation and result
         self.equation = ""
         self.result = ""
 
     def draw(self):
-        pygame.draw.rect(self.surface, self.color, (self.x, self.y, self.width, self.height))
+
+        SCREEN.blit(self.image, (self.x, self.y))
+
         font = pygame.font.Font(None, 36)
         result_text = font.render(self.result, True, BLACK)
-        result_rect = result_text.get_rect(center=(self.x + self.width / 2, self.y + self.height/2))
-        self.surface.blit(result_text, result_rect)
+        result_rect = result_text.get_rect(center=(self.x + self.width / 2, self.y + self.height / 2))
+        SCREEN.blit(result_text, result_rect)
 
     def update(self):
-        speed_y_save = self.speed_y
-        speed_x_save = self.speed_x
-        gravity_save = self.gravity
 
         self.x += self.speed_x
         self.y += self.speed_y
@@ -100,6 +102,13 @@ class character:
         equation_rect = pygame.Rect(equation_box.x, equation_box.y, equation_box.width, equation_box.height)
         return player_rect.colliderect(equation_rect)
 
+
+# Create a new instance of the character class
+Player = character(SCREEN_WIDTH/2 - 50, SCREEN_HEIGHT/2 - 50, 100, 100, 3.5, 0)
+
+# Add the character to the game's sprite group
+sprites = pygame.sprite.Group()
+sprites.add(Player)
 class EquationBox:
     def __init__(self, x, y, width, height, equation, is_correct=False):
         self.x = x
@@ -357,7 +366,6 @@ while running:
                     Player.speed_y -= 2
                     Player.speed_x = -3.5
                     Player.gravity = 0.0982
-
 
 
 
