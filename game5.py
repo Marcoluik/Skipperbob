@@ -110,6 +110,7 @@ class EquationBox:
         self.speed = 1
         self.going_right = True
         right_or_left = random.randint(0, 1)
+        self.speed_save = self.speed
         if right_or_left == 0:
             self.going_right = False
             self.y += 60
@@ -128,7 +129,7 @@ class EquationBox:
         if self.going_right:
             self.x += self.speed
         else:
-            self.speed = -1
+            self.speed = -self.speed_save
             self.x += self.speed
 
         if self.x >= SCREEN_WIDTH and self.going_right:
@@ -138,8 +139,10 @@ class EquationBox:
 
     def stop(self):
         self.speed = 0
+        self.speed_save = 0
     def start(self):
         self.speed = 1
+        self.speed_save = 1
 
 
 class WinningScreen:
@@ -154,7 +157,7 @@ class WinningScreen:
 
 
 winning_screen = WinningScreen()
-Player = character(SCREEN_WIDTH/2 - 50, SCREEN_HEIGHT/2 - 50, 100, 100, 2, 0)
+Player = character(SCREEN_WIDTH/2 - 50, SCREEN_HEIGHT/2 - 50, 100, 100, 3.5, 0)
 
 # Generate random equations without division
 equation_operators = ['+', '-', '*']
@@ -229,7 +232,7 @@ while running:
         # Reset the box's position to the center of the screen
         Player.x = SCREEN_WIDTH/2 - 50
         Player.y = SCREEN_HEIGHT/2 - 50
-        Player.speed_x = 3
+        Player.speed_x = 3.5
         Player.speed_y = 0
         Player.gravity = 0.0982
         Player.color = YELLOW
@@ -276,7 +279,7 @@ while running:
         # Reset the box's position to the center of the screen
         Player.x = SCREEN_WIDTH/2 - 50
         Player.y = SCREEN_HEIGHT/2 - 50
-        Player.speed_x = 3
+        Player.speed_x = 3.5
         Player.speed_y = 0
         Player.gravity = 0.0982
         Player.color = YELLOW
@@ -345,11 +348,11 @@ while running:
             if event.key == pygame.K_SPACE and not collision_detected:
                 if Player.going_right:
                     Player.speed_y -= 2
-                    Player.speed_x = 3
+                    Player.speed_x = 3.5
                     Player.gravity = 0.0982
                 if not Player.going_right:
                     Player.speed_y -= 2
-                    Player.speed_x = -3
+                    Player.speed_x = -3.5
                     Player.gravity = 0.0982
 
 
