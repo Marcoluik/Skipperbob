@@ -9,6 +9,7 @@ pygame.mixer.stop()
 pygame.mixer.music.load('Music/A_ROBUST_CREW.mp3')
 pygame.mixer.music.set_volume(0.2)
 pygame.mixer.music.play(2, 00.00, 50)
+correct_sfx = pygame.mixer.Sound('Music/correct.mp3')
 # Screen dimensions- import main
 HEIGHT = SB_Main.SCREEN_HEIGHT
 WIDTH = SB_Main.SCREEN_WIDTH
@@ -182,6 +183,7 @@ while running:
                         gaps.remove(gap)
                         planks.remove(plank)
                         water.fill_rate_var -= 1
+                        correct_sfx.play()
                         break
         if event.type == pygame.VIDEORESIZE:
             WIDTH, HEIGHT = event.size

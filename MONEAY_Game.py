@@ -9,6 +9,7 @@ pygame.mixer.stop()
 pygame.mixer.music.load('Music/PIRATES OF THE QUARNTINE.mp3')
 pygame.mixer.music.set_volume(0.2)
 pygame.mixer.music.play(2, 00.00, 50)
+correct_sfx = pygame.mixer.Sound('Music/correct.mp3')
 game_clock = pygame.time.Clock()
 total_time = 180 * 1000
 clock = pygame.time.Clock()
@@ -163,6 +164,7 @@ while running:
 
                         if input_texts[active_input] == correct_input[active_input]:
                             input_completed[active_input] = True
+                            correct_sfx.play()
 
                             # check if all complet
                             if all(input_completed):
