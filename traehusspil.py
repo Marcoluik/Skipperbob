@@ -12,7 +12,7 @@ SCREEN_HEIGHT = SB_Main.SCREEN_HEIGHT
 SQUARE_SIZE = 120
 BOX_SIZE = SQUARE_SIZE  # Size of the black boxes for equations
 
-correct_sfx = pygame.mixer.Sound('Music/correct.mp3')
+correct_sfx = pygame.mixer.Sound('Music/correct.ogg')
 
 
 

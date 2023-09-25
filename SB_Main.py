@@ -14,7 +14,7 @@ SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT),pygame.RESIZABLE)
 pygame.display.set_caption("Main Menu")  # Set the window title
 #Pygame Background Music
 def play_music():
-    pygame.mixer.music.load('Music/Sea Shanty.mp3')
+    pygame.mixer.music.load('Music/Sea-Shanty.ogg')
     pygame.mixer.music.set_volume(0.2)
     pygame.mixer.music.play(2, 23.00, 50)
 play_music()

@@ -7,7 +7,7 @@ SCREEN_WIDTH = SB_Main.SCREEN_WIDTH
 SCREEN_HEIGHT = SB_Main.SCREEN_HEIGHT
 SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Game 5 window")
-correct_sfx = pygame.mixer.Sound('Music/correct.mp3')
+correct_sfx = pygame.mixer.Sound('Music/correct.ogg')
 
 clock = pygame.time.Clock()
 sky_blue = (135, 206, 235)

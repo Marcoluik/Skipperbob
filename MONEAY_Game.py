@@ -6,10 +6,10 @@ import SB_Main
 # Init
 pygame.init()
 pygame.mixer.stop()
-pygame.mixer.music.load('Music/PIRATES OF THE QUARNTINE.mp3')
+pygame.mixer.music.load('Music/PIRATES-OF-THE-QUARNTINE.ogg')
 pygame.mixer.music.set_volume(0.15)
 pygame.mixer.music.play(2, 00.00, 50)
-correct_sfx = pygame.mixer.Sound('Music/moneygamebell.mp3')
+correct_sfx = pygame.mixer.Sound('Music/moneygamebell.ogg')
 correct_sfx.set_volume(0.1)
 game_clock = pygame.time.Clock()
 total_time = 180 * 1000

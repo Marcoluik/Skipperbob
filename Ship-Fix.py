@@ -6,12 +6,12 @@ import sys
 # init pygame
 pygame.init()
 pygame.mixer.stop()
-pygame.mixer.music.load('Music/A_ROBUST_CREW.mp3')
+pygame.mixer.music.load('Music/A_ROBUST_CREW.ogg')
 pygame.mixer.music.set_volume(0.2)
 pygame.mixer.music.play(2, 00.00, 50)
-correct_sfx = pygame.mixer.Sound('Music/planksound.mp3')
-water_sfx = pygame.mixer.Sound("Music/water.mp3")
+water_sfx = pygame.mixer.Sound("Music/water.ogg")
 water_sfx.set_volume(0.2)
+correct_sfx = pygame.mixer.Sound("Music/planksound.ogg")
 # Screen dimensions- import main
 HEIGHT = SB_Main.SCREEN_HEIGHT
 WIDTH = SB_Main.SCREEN_WIDTH

@@ -6,15 +6,14 @@ import sys
 #pygame init
 pygame.init()
 pygame.mixer.stop()
-pygame.mixer.music.load('Music/SEVEN_SEAS.mp3')
+pygame.mixer.music.load('Music/SEVEN_SEAS.ogg')
 pygame.mixer.music.set_volume(0.2)
 pygame.mixer.music.play(2, 00.00, 50)
-pop_sfx = pygame.mixer.Sound('Music/pop.mp3')
-correct_sfx = pygame.mixer.Sound('Music/correctsound.mp3')
-correct_sfx.set_volume(1.5)
-wrong_sfx = pygame.mixer.Sound("Music/buzzerwronganswer.mp3")
+pop_sfx = pygame.mixer.Sound('Music/pop.ogg')
+wrong_sfx = pygame.mixer.Sound("Music/buzzerwronganswer.ogg")
 wrong_sfx.set_volume(0.5)
-
+correct_sfx = pygame.mixer.Sound('Music/correctsound.ogg')
+correct_sfx.set_volume(1.5)
 #time def
 game_clock = pygame.time.Clock()
 total_time = 180*1000
