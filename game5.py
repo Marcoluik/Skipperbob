@@ -9,6 +9,8 @@ SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Game 5 window")
 correct_sfx = pygame.mixer.Sound('Music/correct.ogg')
 flap_sfx = pygame.mixer.Sound("Music/wingsflap2.ogg")
+flap_sfx.set_volume(0.03)
+game_won_sfx = pygame.mixer.Sound("Music/game_won.ogg")
 
 clock = pygame.time.Clock()
 sky_blue = (135, 206, 235)
@@ -60,9 +62,9 @@ class character(pygame.sprite.Sprite):
         self.lossimage = pygame.image.load("images/red bird try 2.png")
         self.lossimage = pygame.transform.scale(self.lossimage, (100, 100))
         self.winimagemirror = pygame.image.load("images/green bird mirror.png")
-        self.winimagemirror = pygame.transform.scale(self.winimage, (100, 100))
+        self.winimagemirror = pygame.transform.scale(self.winimagemirror, (100, 100))
         self.lossimagemirror = pygame.image.load("images/red bird mirror.png")
-        self.lossimagemirror = pygame.transform.scale(self.lossimage, (100, 100))
+        self.lossimagemirror = pygame.transform.scale(self.lossimagemirror, (100, 100))
         self.gravity = 0.0982
         self.is_falling = True
         self.going_right = True
@@ -74,14 +76,24 @@ class character(pygame.sprite.Sprite):
     def draw(self):
         if self.going_right == True:
             SCREEN.blit(self.image, (self.x, self.y))
+
         if self.going_right == False:
             SCREEN.blit(self.image2, (self.x, self.y))
-        if Player.color == GREEN:
-            SCREEN.blit(self.winimage, (self.x, self.y))
-        if Player.color == RED:
-            SCREEN.blit(self.lossimage, (self.x, self.y))
+
+        if self.color == GREEN and self.going_right:
+            SCREEN.blit(self.winimage, (self.x - 8, self.y))
+
+        if self.color == GREEN and not self.going_right:
+            SCREEN.blit(self.winimagemirror, (self.x, self.y))
+
+        if self.color == RED and self.going_right:
+            SCREEN.blit(self.lossimage, (self.x - 8, self.y))
+
+        if self.color == RED and not self.going_right:
+            SCREEN.blit(self.lossimagemirror, (self.x, self.y))
+
         font = pygame.font.Font(None, 36)
-        result_text = font.render(self.result, True, BLACK)
+        result_text = font.render(self.result, True, WHITE)
         result_rect = result_text.get_rect(center=(self.x + self.width / 2, self.y + self.height / 2))
         SCREEN.blit(result_text, result_rect)
 
@@ -191,6 +203,7 @@ equation_operators = ['+', '-', '*']
 equations = []
 box_width = 100
 gap = (SCREEN_WIDTH - 5*box_width)/5  # Adjust the gap between boxes
+results = set()
 
 
 
@@ -202,20 +215,19 @@ correct_equation_index = random.randint(0, 4)  # Randomly select the index of th
 generated_equations = set()
 
 # Generate unique equations without division
-while len(generated_equations) < 5:
+while len(equations) < 5:
     num1 = random.randint(1, 10)
     num2 = random.randint(1, 10)
     operator = random.choice(equation_operators)
     equation = f"{num1} {operator} {num2}"
-    i = 0
-    # Check if the equation is already generated, if not, add it to the set
-    if equation not in generated_equations:
-        i += 1
-        generated_equations.add(equation)
-        is_correct = (
-                    len(generated_equations) == correct_equation_index + 1)  # Mark one equation as the correct equation
+    result = str(eval(equation))  # Calculate the result of the equation
+
+    # Check if the result is already generated, if not, add it to the set
+    if result not in results:
+        results.add(result)
+        is_correct = (len(equations) == correct_equation_index)  # Mark one equation as the correct equation
         equations.append(
-            EquationBox(len(generated_equations) * (box_width + gap) + start_x, int(SCREEN_HEIGHT / 8), box_width, 100,
+            EquationBox(len(equations) * (box_width + gap) + start_x, int(SCREEN_HEIGHT / 8), box_width, 100,
                         equation, is_correct))
 
 
@@ -239,7 +251,7 @@ while running:
     SCREEN.blit(point_text, point_rect)
 
     font = pygame.font.Font(None, 30)
-    text_guide = "Tryk MELLEMRUM for at flyve"
+    text_guide = "Tryk på piletasterne eller WASD for at flyve"
     guide_text = font.render(text_guide, True, (WHITE))
     guide_rect = guide_text.get_rect(center=(SCREEN_WIDTH / 2, int(SCREEN_HEIGHT /1.5)))
     SCREEN.blit(guide_text, guide_rect)
@@ -296,6 +308,7 @@ while running:
             with open("flappybirdspil_done.txt.txt", "w") as fil:
                 fil.write("1")
             SB_Main.pygame.display.flip()
+            game_won_sfx.play()
             winning_screen.draw(SCREEN)
             pygame.display.flip()
             pygame.time.wait(2000)  # waitin
@@ -384,6 +397,56 @@ while running:
                     Player.speed_x = -3.5
                     Player.gravity = 0.0982
                     flap_sfx.play()
+
+            if event.key == pygame.K_UP and not collision_detected:
+                if Player.going_right:
+                    Player.speed_y -= 2
+                    Player.speed_x = 3.5
+                    Player.gravity = 0.0982
+                    flap_sfx.play()
+                if not Player.going_right:
+                    Player.speed_y -= 2
+                    Player.speed_x = -3.5
+                    Player.gravity = 0.0982
+                    flap_sfx.play()
+
+            if event.key == pygame.K_DOWN and not collision_detected and Player.is_falling:
+                Player.speed_y += 0.5
+
+
+            if event.key == pygame.K_RIGHT and not collision_detected:
+                Player.going_right = True
+                if Player.is_falling:
+                    Player.speed_x = 3.5
+            if event.key == pygame.K_LEFT and not collision_detected:
+                Player.going_right = False
+                if Player.is_falling:
+                    Player.speed_x = -3.5
+
+            if event.key == pygame.K_w and not collision_detected:
+                if Player.going_right:
+                    Player.speed_y -= 2
+                    Player.speed_x = 3.5
+                    Player.gravity = 0.0982
+                    flap_sfx.play()
+                if not Player.going_right:
+                    Player.speed_y -= 2
+                    Player.speed_x = -3.5
+                    Player.gravity = 0.0982
+                    flap_sfx.play()
+
+            if event.key == pygame.K_s and not collision_detected and Player.is_falling:
+                Player.speed_y += 0.5
+
+            if event.key == pygame.K_d and not collision_detected:
+                Player.going_right = True
+                if Player.is_falling:
+                    Player.speed_x = 3.5
+            if event.key == pygame.K_a and not collision_detected:
+                Player.going_right = False
+                if Player.is_falling:
+                    Player.speed_x = -3.5
+
 
 
 
