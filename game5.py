@@ -53,6 +53,16 @@ class character(pygame.sprite.Sprite):
         self.speed_y = speed_y
         self.surface = SCREEN
         self.image = yellowbird_image
+        self.image2 = pygame.image.load("images/yellow bird mirror.png")
+        self.image2 = pygame.transform.scale(self.image2, (100, 100))
+        self.winimage = pygame.image.load("images/green bird try 2.png")
+        self.winimage = pygame.transform.scale(self.winimage, (100, 100))
+        self.lossimage = pygame.image.load("images/red bird try 2.png")
+        self.lossimage = pygame.transform.scale(self.lossimage, (100, 100))
+        self.winimagemirror = pygame.image.load("images/green bird mirror.png")
+        self.winimagemirror = pygame.transform.scale(self.winimage, (100, 100))
+        self.lossimagemirror = pygame.image.load("images/red bird mirror.png")
+        self.lossimagemirror = pygame.transform.scale(self.lossimage, (100, 100))
         self.gravity = 0.0982
         self.is_falling = True
         self.going_right = True
@@ -62,9 +72,14 @@ class character(pygame.sprite.Sprite):
         self.result = ""
 
     def draw(self):
-
-        SCREEN.blit(self.image, (self.x, self.y))
-
+        if self.going_right == True:
+            SCREEN.blit(self.image, (self.x, self.y))
+        if self.going_right == False:
+            SCREEN.blit(self.image2, (self.x, self.y))
+        if Player.color == GREEN:
+            SCREEN.blit(self.winimage, (self.x, self.y))
+        if Player.color == RED:
+            SCREEN.blit(self.lossimage, (self.x, self.y))
         font = pygame.font.Font(None, 36)
         result_text = font.render(self.result, True, BLACK)
         result_rect = result_text.get_rect(center=(self.x + self.width / 2, self.y + self.height / 2))
