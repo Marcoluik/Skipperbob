@@ -14,6 +14,8 @@ wrong_sfx = pygame.mixer.Sound("Music/buzzerwronganswer.ogg")
 wrong_sfx.set_volume(0.5)
 correct_sfx = pygame.mixer.Sound('Music/correctsound.ogg')
 correct_sfx.set_volume(1.5)
+game_won_sfx = pygame.mixer.Sound("Music/game_won.ogg")
+button_click_sfx = pygame.mixer.Sound("Music/buttonclick.ogg")
 #time def
 game_clock = pygame.time.Clock()
 total_time = 180*1000
@@ -153,6 +155,7 @@ class StartButton:
         screen.blit(self.text, (self.x + 10, self.y + 10))
 
     def is_clicked(self, pos):
+        button_click_sfx.play()
         return self.x <= pos[0] <= self.x + self.width and self.y <= pos[1] <= self.y + self.height
 
 
@@ -258,6 +261,7 @@ while running:
                 # Winning screen
                 with open("balloongame_done.txt.txt", "w") as fil:
                     fil.write("1")
+                game_won_sfx.play()
                 SB_Main.pygame.display.flip()
                 game_started = False
                 winning_screen.draw(screen)

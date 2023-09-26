@@ -12,6 +12,7 @@ info = pygame.display.Info()
 SCREEN_WIDTH, SCREEN_HEIGHT = info.current_w, info.current_h
 SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT),pygame.RESIZABLE)
 pygame.display.set_caption("Main Menu")  # Set the window title
+button_click_sfx = pygame.mixer.Sound("Music/buttonclick.ogg")
 #Pygame Background Music
 def play_music():
     pygame.mixer.music.load('Music/Sea-Shanty.ogg')
@@ -131,14 +132,19 @@ def main_menu():
 
 
                 if pos[0] in x_rangeb and pos[1] in y_rangeb and not balloongame_done:
+                    button_click_sfx.play()
                     openballoonpop()
                 if pos[0] in x_ranges and pos[1] in y_ranges and not shipgame_done:
+                    button_click_sfx.play()
                     openshipfix()
                 if pos[0] in x_rangem and pos[1] in y_rangem and not moneygame_done:
+                    button_click_sfx.play()
                     openmoney()
                 if pos[0] in x_rangea and pos[1] in y_rangea and not treegame_done:
+                    button_click_sfx.play()
                     opentraehusspil()
                 if pos[0] in x_rangez and pos[1] in y_rangez and not birdgame_done:
+                    button_click_sfx.play()
                     openflappybird()
                     pass
         SCREEN.blit(BG, (0, 0))

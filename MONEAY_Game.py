@@ -11,6 +11,8 @@ pygame.mixer.music.set_volume(0.15)
 pygame.mixer.music.play(2, 00.00, 50)
 correct_sfx = pygame.mixer.Sound('Music/moneygamebell.ogg')
 correct_sfx.set_volume(0.1)
+game_won_sfx = pygame.mixer.Sound("Music/game_won.ogg")
+button_click_sfx = pygame.mixer.Sound("Music/buttonclick.ogg")
 game_clock = pygame.time.Clock()
 total_time = 180 * 1000
 clock = pygame.time.Clock()
@@ -115,6 +117,7 @@ class StartButton:
         screen.blit(self.text, (self.x + 10, self.y + 10))
 
     def is_clicked(self, pos):
+        button_click_sfx.play()
         return self.x <= pos[0] <= self.x + self.width and self.y <= pos[1] <= self.y + self.height
 
 winning_screen = WinningScreen()
@@ -250,9 +253,10 @@ while running:
                         circle_rect = coin_image3.get_rect(center=circle_position)
                         screen.blit(coin_image3, circle_rect)
 
-            if point == 10:#win
+            if point == 5:#win
                 with open("moneygame_done.txt.txt", "w") as fil:
                     fil.write("1")
+                game_won_sfx.play()
                 SB_Main.pygame.display.flip()
                 winning_screen.draw(screen)
                 pygame.display.flip()

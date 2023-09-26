@@ -12,6 +12,7 @@ pygame.mixer.music.play(2, 00.00, 50)
 water_sfx = pygame.mixer.Sound("Music/water.ogg")
 water_sfx.set_volume(0.2)
 correct_sfx = pygame.mixer.Sound("Music/planksound.ogg")
+game_won_sfx = pygame.mixer.Sound("Music/game_won.ogg")
 # Screen dimensions- import main
 HEIGHT = SB_Main.SCREEN_HEIGHT
 WIDTH = SB_Main.SCREEN_WIDTH
@@ -229,6 +230,7 @@ while running:
                 running = False
         screen.blit(gw_bg, (0,0))
         screen.blit(game_won_text, game_won_text_rect)
+        game_won_sfx.play()
         pygame.display.flip()
         pygame.time.wait(2000)
         running = False
