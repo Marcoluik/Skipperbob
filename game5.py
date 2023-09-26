@@ -8,6 +8,7 @@ SCREEN_HEIGHT = SB_Main.SCREEN_HEIGHT
 SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Game 5 window")
 correct_sfx = pygame.mixer.Sound('Music/correct.ogg')
+flap_sfx = pygame.mixer.Sound("Music/wingsflap2.ogg")
 
 clock = pygame.time.Clock()
 sky_blue = (135, 206, 235)
@@ -36,7 +37,7 @@ def pause_game():
 
         pygame.display.flip()
 
-yellowbird_image = pygame.image.load("images/yellow bird.png")
+yellowbird_image = pygame.image.load("images/yellow bird try 2.png")
 yellowbird_image = pygame.transform.scale(yellowbird_image, (100, 100))
 
 
@@ -362,10 +363,12 @@ while running:
                     Player.speed_y -= 2
                     Player.speed_x = 3.5
                     Player.gravity = 0.0982
+                    flap_sfx.play()
                 if not Player.going_right:
                     Player.speed_y -= 2
                     Player.speed_x = -3.5
                     Player.gravity = 0.0982
+                    flap_sfx.play()
 
 
 
