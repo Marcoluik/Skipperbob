@@ -3,17 +3,16 @@ import sys
 import random
 import SB_Main
 
-# Initialize Pygame
+
 pygame.init()
 
-# Constants
+
 SCREEN_WIDTH = SB_Main.SCREEN_WIDTH
 SCREEN_HEIGHT = SB_Main.SCREEN_HEIGHT
 SQUARE_SIZE = 120
-BOX_SIZE = SQUARE_SIZE  # Size of the black boxes for equations
+BOX_SIZE = SQUARE_SIZE
 
 correct_sfx = pygame.mixer.Sound('Music/correct.ogg')
-
 
 
 # Colors
@@ -26,7 +25,7 @@ GREEN = (0, 255, 0)
 
 # Create the screen
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Drag and Drop Game")
+pygame.display.set_caption("Træhusmatematik")
 def pause_game():
     paused = True
     while paused:
@@ -37,15 +36,15 @@ def pause_game():
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 paused = False
 
-        # Display the pause screen
+
         screen.fill((0, 0, 0))
         font = pygame.font.SysFont(None, 72)
-        text = font.render("Game Paused", True, (255, 255, 255))
+        text = font.render("Spillet er på pause", True, (255, 255, 255))
         screen.blit(text, (SCREEN_WIDTH // 2 - text.get_width() // 2, SCREEN_HEIGHT // 2 - text.get_height() // 2))
 
         pygame.display.flip()
 
-# Square class
+
 class Square:
     def __init__(self, equation, result, color, x, y):
         self.equation = equation
@@ -66,15 +65,14 @@ class EquationBox:
     def __init__(self, equation, x, y):
         self.equation = equation
         self.rect = pygame.Rect(x - BOX_SIZE/2, y, BOX_SIZE, BOX_SIZE)
-        self.result = eval(equation[:-1])  # Evaluate the equation to get the expected result
+        self.result = eval(equation[:-1])
 
     def draw(self):
         pygame.draw.rect(screen, BLACK, self.rect)
         font = pygame.font.Font(None, 36)
-        equation_text = font.render(self.equation, True, (255, 255, 255))  # White text on black background
+        equation_text = font.render(self.equation, True, (255, 255, 255))
         screen.blit(equation_text, (self.rect.centerx - equation_text.get_width() / 2, self.rect.centery - 20))
 
-# Create squares and equation boxes
 unique_equations = set()
 equations = []
 number_of_boxes = random.randint(5, 9)
@@ -103,7 +101,7 @@ random.shuffle(x_positions_equations)
 squares = [Square(equation, eval(equation[:-1]), RED, x, 400) for x, equation in zip(x_positions_boxes, equations)]
 target_areas = [EquationBox(equation, x, 100) for x, equation in zip(x_positions_equations, equations)]
 
-# Winning screen
+
 def show_winning_screen():
     screen.fill(sky_blue)
     font = pygame.font.Font(None, 72)
@@ -114,7 +112,7 @@ def show_winning_screen():
 
 won = False
 
-# Main game loop
+
 running = True
 dragging_square = None
 
@@ -150,27 +148,26 @@ while running:
                                 pygame.display.flip()
                                 with open("traehusspil_done.txt.txt", "w") as fil:
                                     fil.write("1")
-                                pygame.time.wait(2000)  # Display for 2 seconds
+                                pygame.time.wait(2000)
 
                                 running = False
                             break
                     else:
-                        # Return to original position
+
                         dragging_square.dragging = False
                         dragging_square = None
 
-    # Update the position of the dragging square if it's being dragged
+
     if dragging_square and dragging_square.dragging:
         pos = pygame.mouse.get_pos()
         dragging_square.rect.topleft = (pos[0] - SQUARE_SIZE // 2, pos[1] - SQUARE_SIZE // 2)
 
     screen.fill(WHITE)
 
-    # Draw equation boxes
+
     for target_box in target_areas:
         target_box.draw()
 
-    # Draw squares
     for square in squares:
         square.draw()
 

@@ -18,19 +18,18 @@ total_time = 180 * 1000
 clock = pygame.time.Clock()
 
 
-# Screen dimensions
 screen_height = SB_Main.SCREEN_HEIGHT
 screen_width = SB_Main.SCREEN_WIDTH
 
 moneygame_done = False
 
-# Colors
+
 blue = (135, 206, 235)
 white = (255, 255, 255)
 black = (0, 0, 0)
 light_gray = (83, 83, 83)
 
-# Init
+
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("MONAYGAME")
 
@@ -50,16 +49,15 @@ start_baggrund = pygame.transform.scale(start_baggrund, (screen_width, screen_he
 spil_baggrund = pygame.image.load("images/pengebaggrund.png")
 spil_baggrund = pygame.transform.scale(spil_baggrund, (screen_width, screen_height))
 
-# Font
+
 font = pygame.font.Font(None, 36)
 
-# input area
+
 input_area_height = 100
 input_area_width = screen_width // 3
 input_area_x_positions = [1, input_area_width + 1, 2 * input_area_width + 1]
 input_area_y_position = screen_height // 2 + input_area_height // 2
 
-# input var
 input_texts = ["", "", ""]
 active_input = -1
 correct_input = ["", "", ""]
@@ -85,10 +83,10 @@ def pause_game():
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 paused = False
 
-        # Display the pause screen
+
         screen.fill((0, 0, 0))
         font = pygame.font.SysFont(None, 72)
-        text = font.render("Game Paused", True, (255, 255, 255))
+        text = font.render("Spillet er på pause", True, (255, 255, 255))
         screen.blit(text, (screen_width // 2 - text.get_width() // 2, screen_height // 2 - text.get_height() // 2))
 
         pygame.display.flip()
@@ -158,27 +156,27 @@ while running:
 
                 elif event.type == pygame.KEYDOWN:
                     if active_input != -1:
-                        if not input_completed[active_input]:  #Only if not complete
+                        if not input_completed[active_input]:
                             if event.key == pygame.K_BACKSPACE:
                                 input_texts[active_input] = input_texts[active_input][:-1]
                             elif event.key == pygame.K_RETURN:
                                 active_input = (active_input + 1) % 3
-                            elif event.unicode.isnumeric():  # input int checker
+                            elif event.unicode.isnumeric():  # input int tjekker
                                 input_texts[active_input] += event.unicode
 
                         if input_texts[active_input] == correct_input[active_input]:
                             input_completed[active_input] = True
                             correct_sfx.play()
 
-                            # check if all complet
+
                             if all(input_completed):
                                 point += 1
                                 points = f"Points: {point}"
 
-                                # reset variable
+
                                 input_texts = ["", "", ""]
                                 input_completed = [False, False, False]
-                                # random circle pos
+
                                 circle_positions_list = []
                                 for x_pos in input_area_x_positions:
                                     num_circles = random.randint(1, 6)
@@ -225,7 +223,7 @@ while running:
                         correct_input[1] = str(num_circles)
                     if x_pos == 2 * input_area_width + 1:
                         correct_input[2] = str(num_circles)
-                start_time = pygame.time.get_ticks()  # reset time
+                start_time = pygame.time.get_ticks()
 
             for i, x_pos in enumerate(input_area_x_positions):
                 pygame.draw.rect(screen, black, (x_pos, input_area_y_position, input_area_width, input_area_height),
@@ -261,7 +259,7 @@ while running:
                 winning_screen.draw(screen)
                 pygame.display.flip()
                 moneygame_done = True
-                pygame.time.wait(2000)  # paus
+                pygame.time.wait(2000)
                 running = False
 
             font = pygame.font.Font(None, 36)
@@ -282,6 +280,6 @@ while running:
         clock.tick(60)
 
 
-# Clean up
+
 pygame.quit()
 sys.exit()

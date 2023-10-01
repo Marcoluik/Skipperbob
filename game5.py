@@ -6,7 +6,7 @@ pygame.init()
 SCREEN_WIDTH = SB_Main.SCREEN_WIDTH
 SCREEN_HEIGHT = SB_Main.SCREEN_HEIGHT
 SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Game 5 window")
+pygame.display.set_caption("Fuglematematik")
 correct_sfx = pygame.mixer.Sound('Music/correct.ogg')
 flap_sfx = pygame.mixer.Sound("Music/wingsflap2.ogg")
 flap_sfx.set_volume(0.03)
@@ -20,7 +20,7 @@ WHITE = (255, 255, 255)
 YELLOW = (255, 255, 0)
 GREEN = (0, 255, 0)
 background = pygame.image.load("images/korn mark.png")
-background = pygame.transform.scale(background, (SCREEN_WIDTH, SCREEN_HEIGHT))  # Scale the image to fit the screen
+background = pygame.transform.scale(background, (SCREEN_WIDTH, SCREEN_HEIGHT))  #skalerer baggrundsbilledet
 def pause_game():
     paused = True
     while paused:
@@ -31,10 +31,10 @@ def pause_game():
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 paused = False
 
-        # Display the pause screen
+        # viser pauseskærmen
         SCREEN.fill((0, 0, 0))
         font = pygame.font.SysFont(None, 72)
-        text = font.render("Game Paused", True, (255, 255, 255))
+        text = font.render("Spillet er på pause", True, (255, 255, 255))
         SCREEN.blit(text, (SCREEN_WIDTH // 2 - text.get_width() // 2, SCREEN_HEIGHT // 2 - text.get_height() // 2))
 
         pygame.display.flip()
@@ -69,7 +69,6 @@ class character(pygame.sprite.Sprite):
         self.is_falling = True
         self.going_right = True
         self.color = YELLOW
-        # Initialize the character's equation and result
         self.equation = ""
         self.result = ""
 
@@ -131,10 +130,9 @@ class character(pygame.sprite.Sprite):
         return player_rect.colliderect(equation_rect)
 
 
-# Create a new instance of the character class
+
 Player = character(SCREEN_WIDTH/2 - 50, SCREEN_HEIGHT/2 - 50, 100, 100, 3.5, 0)
 
-# Add the character to the game's sprite group
 sprites = pygame.sprite.Group()
 sprites.add(Player)
 class EquationBox:
@@ -160,7 +158,7 @@ class EquationBox:
     def draw(self):
         pygame.draw.rect(self.surface, BLACK, (self.x, self.y, self.width, self.height))
         font = pygame.font.Font(None, 36)
-        text_color = RED  # Color the correct equation differently
+        text_color = RED
         text = font.render(self.equation, True, text_color)
         text_rect = text.get_rect(center=(self.x + self.width / 2, self.y + self.height / 2))
         self.surface.blit(text, text_rect)
@@ -198,53 +196,51 @@ class WinningScreen:
 winning_screen = WinningScreen()
 Player = character(SCREEN_WIDTH/2 - 50, SCREEN_HEIGHT/2 - 50, 100, 100, 3.5, 0)
 
-# Generate random equations without division
+
 equation_operators = ['+', '-', '*']
 equations = []
 box_width = 100
-gap = (SCREEN_WIDTH - 5*box_width)/5  # Adjust the gap between boxes
+gap = (SCREEN_WIDTH - 5*box_width)/5
 results = set()
 
 
 
-# Calculate the start_x value to center the equation boxes
+
 start_x = ((SCREEN_WIDTH - 5*box_width)/5)/2
 
-correct_equation_index = random.randint(0, 4)  # Randomly select the index of the correct equation
+correct_equation_index = random.randint(0, 4)
 
 generated_equations = set()
 
-# Generate unique equations without division
+
 while len(equations) < 5:
     num1 = random.randint(1, 10)
     num2 = random.randint(1, 10)
     operator = random.choice(equation_operators)
     equation = f"{num1} {operator} {num2}"
-    result = str(eval(equation))  # Calculate the result of the equation
+    result = str(eval(equation))
 
-    # Check if the result is already generated, if not, add it to the set
     if result not in results:
         results.add(result)
-        is_correct = (len(equations) == correct_equation_index)  # Mark one equation as the correct equation
+        is_correct = (len(equations) == correct_equation_index)
         equations.append(
             EquationBox(len(equations) * (box_width + gap) + start_x, int(SCREEN_HEIGHT / 8), box_width, 100,
                         equation, is_correct))
 
 
 
-# Set the character's equation and result to the correct equation
 Player.equation = equations[correct_equation_index].equation
 Player.result = str(eval(equations[correct_equation_index].equation))
 
 running = True
-collision_detected = False  # Add a flag to track collision
-collision_time = None  # Add a variable to store collision time
+collision_detected = False
+collision_time = None
 points = 0
 point = f"Points: {points}"
 
 while running:
-    #SCREEN.blit(background, (0, 0))
-    SCREEN.fill(sky_blue)
+    SCREEN.blit(background, (0, 0))
+    #SCREEN.fill(sky_blue)
     font = pygame.font.Font(None, 36)
     point_text = font.render(point, True, (0, 0, 0))
     point_rect = point_text.get_rect(center=(100, SCREEN_HEIGHT - 550))
@@ -262,13 +258,12 @@ while running:
     Player.update()
 
 
-    # Check if a collision has been detected and record the collision time
+
     if collision_detected and collision_time is None:
         collision_time = pygame.time.get_ticks()
 
-    # Check if 2 seconds have passed since the collision
+
     if collision_time is not None and pygame.time.get_ticks() - collision_time >= 2000 and Player.color == GREEN:
-        # Reset the box's position to the center of the screen
         Player.x = SCREEN_WIDTH/2 - 50
         Player.y = SCREEN_HEIGHT/2 - 50
         Player.speed_x = 3.5
@@ -281,42 +276,39 @@ while running:
 
 
 
-        # Generate new equations and choose a new correct equation
         equations = []
-        correct_equation_index = random.randint(0, 4)  # Randomly select the index of the correct equation
+        correct_equation_index = random.randint(0, 4)
 
         for i in range(5):
             num1 = random.randint(1, 10)
             num2 = random.randint(1, 10)
             operator = random.choice(equation_operators)
             equation = f"{num1} {operator} {num2}"
-            is_correct = (i == correct_equation_index)  # Mark one equation as the correct equation
+            is_correct = (i == correct_equation_index)
             equations.append(
                 EquationBox(i * (box_width + gap) + start_x, int(SCREEN_HEIGHT / 8), box_width, 100, equation,
                             is_correct))
 
-        # Set the character's equation and result to the correct equation
+
         Player.equation = equations[correct_equation_index].equation
         Player.result = str(eval(equations[correct_equation_index].equation))
 
-        # Reset collision flags and time
+
         collision_detected = False
         collision_time = None
 
         if points == 5:
-            # Winning screen
             with open("flappybirdspil_done.txt.txt", "w") as fil:
                 fil.write("1")
             SB_Main.pygame.display.flip()
             game_won_sfx.play()
             winning_screen.draw(SCREEN)
             pygame.display.flip()
-            pygame.time.wait(2000)  # waitin
+            pygame.time.wait(2000)
             running = False
 
-    # Check if 2 seconds have passed since the collision
+
     if collision_time is not None and pygame.time.get_ticks() - collision_time >= 2000 and Player.color == RED:
-        # Reset the box's position to the center of the screen
         Player.x = SCREEN_WIDTH/2 - 50
         Player.y = SCREEN_HEIGHT/2 - 50
         Player.speed_x = 3.5
@@ -328,25 +320,25 @@ while running:
             box.start()
 
 
-        # Generate new equations and choose a new correct equation
+
         equations = []
-        correct_equation_index = random.randint(0, 4)  # Randomly select the index of the correct equation
+        correct_equation_index = random.randint(0, 4)
 
         for i in range(5):
             num1 = random.randint(1, 10)
             num2 = random.randint(1, 10)
             operator = random.choice(equation_operators)
             equation = f"{num1} {operator} {num2}"
-            is_correct = (i == correct_equation_index)  # Mark one equation as the correct equation
+            is_correct = (i == correct_equation_index)
             equations.append(
                 EquationBox(i * (box_width + gap) + start_x, int(SCREEN_HEIGHT / 8), box_width, 100, equation,
                             is_correct))
 
-        # Set the character's equation and result to the correct equation
+
         Player.equation = equations[correct_equation_index].equation
         Player.result = str(eval(equations[correct_equation_index].equation))
 
-        # Reset collision flags and time
+
         collision_detected = False
         collision_time = None
 
@@ -358,7 +350,7 @@ while running:
             Player.speed_x = 0
             Player.speed_y = 0
             Player.gravity = 0
-            Player.color = GREEN  # Change player color to green upon collision with correct equation
+            Player.color = GREEN
             Player.x = box.x
             Player.y = box.y
             points += 1
@@ -372,7 +364,7 @@ while running:
             Player.speed_x = 0
             Player.speed_y = 0
             Player.gravity = 0
-            Player.color = RED  # Change player color to green upon collision with correct equation
+            Player.color = RED
             Player.x = box.x
             Player.y = box.y
             for box in equations:
@@ -446,10 +438,6 @@ while running:
                 Player.going_right = False
                 if Player.is_falling:
                     Player.speed_x = -3.5
-
-
-
-
 
     pygame.display.flip()
     clock.tick(60)

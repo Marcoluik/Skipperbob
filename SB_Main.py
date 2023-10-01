@@ -8,12 +8,14 @@ pygame.init()
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 info = pygame.display.Info()
 
-# Screen setup
+# indlæser skærmens info og sætter spillets dimensioner til dette
 SCREEN_WIDTH, SCREEN_HEIGHT = info.current_w, info.current_h
 SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT),pygame.RESIZABLE)
-pygame.display.set_caption("Main Menu")  # Set the window title
+pygame.display.set_caption("Skipper Bobs Ø")
 button_click_sfx = pygame.mixer.Sound("Music/buttonclick.ogg")
-#Pygame Background Music
+sky_blue = (135, 206, 235)
+WHITE = (0, 0, 0)
+#baggrundsmusik
 def play_music():
     pygame.mixer.music.load('Music/Sea-Shanty.ogg')
     pygame.mixer.music.set_volume(0.2)
@@ -29,20 +31,20 @@ def pause_game():
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 paused = False
 
-        # Display the pause screen
+        # Displayer pauseskærmen
         screen.fill((0, 0, 0))
         font = pygame.font.SysFont(None, 72)
-        text = font.render("Game Paused", True, (255, 255, 255))
+        text = font.render("Spillet er på pause", True, (255, 255, 255))
         screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2 - text.get_height() // 2))
 
         pygame.display.flip()
 
 
 if sys.platform.startswith('win'):
-    # On Windows, use "python"
+    # på windows bruges "python"
     python_command = "python"
 else:
-    # On macOS/Linux, use "python3"
+    # på mac og linux bruges "python3"
     python_command = "python3"
 
 # Indlaese og skalerer baggrundsbilledet
@@ -89,6 +91,7 @@ def main_menu():
     balloongame_done = False
     treegame_done = False
     birdgame_done = False
+    full_game_done = False
     while True:
         with open("moneygame_done.txt.txt", "r") as fil:
             moneygame_done = fil.readline(1) == "1"
@@ -105,6 +108,15 @@ def main_menu():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+
+            #if event.type == pygame.KEYDOWN:
+                #if event.key == pygame.K_w:
+                    #balloongame_done = True
+                    #shipgame_done = True
+                    #moneygame_done = True
+                    #treegame_done = True
+                    #birdgame_done = True
+
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
 
@@ -147,37 +159,55 @@ def main_menu():
                     button_click_sfx.play()
                     openflappybird()
                     pass
-        SCREEN.blit(BG, (0, 0))
-        # Balloon pop start knap
-        if not balloongame_done:
-            SCREEN.blit(knap, (int(0.38*(SCREEN_WIDTH)), (int(0.82*(SCREEN_HEIGHT)))))
-        else:
-            SCREEN.blit(knap_faerdig, (int(0.38*(SCREEN_WIDTH)), (int(0.82*(SCREEN_HEIGHT)))))
 
-        # ship-fix start knap
-        if not shipgame_done:
-            SCREEN.blit(knap, (int(0.835*SCREEN_WIDTH), int(0.65*SCREEN_HEIGHT)))
-        else:
-            SCREEN.blit(knap_faerdig, (int(0.835*SCREEN_WIDTH), int(0.65*SCREEN_HEIGHT)))
+        if balloongame_done and shipgame_done and moneygame_done and treegame_done and birdgame_done:
+            #Registrerer om hele spillet er færdigt
+            full_game_done = True
 
-        # pengespil start knap
-        if not moneygame_done:
-            SCREEN.blit(knap, (int(0.286*SCREEN_WIDTH), int(0.25*SCREEN_HEIGHT)))
-        else:
-            SCREEN.blit(knap_faerdig, (int(0.286*SCREEN_WIDTH), int(0.25*SCREEN_HEIGHT)))
+        if not full_game_done:
+            #baggrundsbilledet vises
+            SCREEN.blit(BG, (0, 0))
+            # Balloon pop startknap
+            if not balloongame_done:
+                SCREEN.blit(knap, (int(0.38 * (SCREEN_WIDTH)), (int(0.82 * (SCREEN_HEIGHT)))))
+            else:
+                SCREEN.blit(knap_faerdig, (int(0.38 * (SCREEN_WIDTH)), (int(0.82 * (SCREEN_HEIGHT)))))
 
-        if not treegame_done:
-            SCREEN.blit(knap, (int(0.755*SCREEN_WIDTH), int(0.32*SCREEN_HEIGHT)))
-        else:
-            SCREEN.blit(knap_faerdig, (int(0.755*SCREEN_WIDTH), int(0.32*SCREEN_HEIGHT)))
+            # ship-fix startknap
+            if not shipgame_done:
+                SCREEN.blit(knap, (int(0.835 * SCREEN_WIDTH), int(0.65 * SCREEN_HEIGHT)))
+            else:
+                SCREEN.blit(knap_faerdig, (int(0.835 * SCREEN_WIDTH), int(0.65 * SCREEN_HEIGHT)))
 
-        if not birdgame_done:
-            SCREEN.blit(knap, (int(0.153*SCREEN_WIDTH), int(0.4*SCREEN_HEIGHT)))
-        else:
-            SCREEN.blit(knap_faerdig, (int(0.153*SCREEN_WIDTH), int(0.4*SCREEN_HEIGHT)))
+            # pengespil startknap
+            if not moneygame_done:
+                SCREEN.blit(knap, (int(0.286 * SCREEN_WIDTH), int(0.25 * SCREEN_HEIGHT)))
+            else:
+                SCREEN.blit(knap_faerdig, (int(0.286 * SCREEN_WIDTH), int(0.25 * SCREEN_HEIGHT)))
+
+            # træhusspil startknap
+            if not treegame_done:
+                SCREEN.blit(knap, (int(0.755 * SCREEN_WIDTH), int(0.32 * SCREEN_HEIGHT)))
+            else:
+                SCREEN.blit(knap_faerdig, (int(0.755 * SCREEN_WIDTH), int(0.32 * SCREEN_HEIGHT)))
+
+            #fuglespil startknap
+            if not birdgame_done:
+                SCREEN.blit(knap, (int(0.153 * SCREEN_WIDTH), int(0.4 * SCREEN_HEIGHT)))
+            else:
+                SCREEN.blit(knap_faerdig, (int(0.153 * SCREEN_WIDTH), int(0.4 * SCREEN_HEIGHT)))
 
 
 
+
+
+        if full_game_done:
+            #Viser vinderskærmmen
+            font = pygame.font.Font(None, 72)
+            text = font.render("Beboerne takker dig for din hjælp, og du kan nu sejle frit hjem!", True, WHITE)
+            text_rect = text.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
+            SCREEN.fill(sky_blue)
+            SCREEN.blit(text, text_rect)
 
         pygame.display.flip()  # opdaterer displayet
 

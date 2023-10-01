@@ -1,9 +1,8 @@
-#importering
+
 import pygame
 import random
 import SB_Main
 import sys
-#pygame init
 pygame.init()
 pygame.mixer.stop()
 pygame.mixer.music.load('Music/SEVEN_SEAS.ogg')
@@ -16,14 +15,14 @@ correct_sfx = pygame.mixer.Sound('Music/correctsound.ogg')
 correct_sfx.set_volume(1.5)
 game_won_sfx = pygame.mixer.Sound("Music/game_won.ogg")
 button_click_sfx = pygame.mixer.Sound("Music/buttonclick.ogg")
-#time def
+
 game_clock = pygame.time.Clock()
 total_time = 180*1000
 
-# Screen dimensions- import fra main
+
 HEIGHT = SB_Main.SCREEN_HEIGHT
 WIDTH = SB_Main.SCREEN_WIDTH
-# Colors
+
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 blue = (135, 206, 235)
@@ -36,7 +35,7 @@ background = pygame.transform.scale(background, (WIDTH, HEIGHT))
 background2 = background2 = pygame.image.load("images/FLOTSKY.png")
 background2 = pygame.transform.scale(background2, (WIDTH, HEIGHT))
 balloon_positions = []
-# Balloon class
+
 def pause_game():
     paused = True
     while paused:
@@ -48,10 +47,10 @@ def pause_game():
                 paused = False
         clock.tick(0)
 
-        # Display the pause screen
+
         screen.fill((0, 0, 0))
         font = pygame.font.SysFont(None, 72)
-        text = font.render("Game Paused", True, (255, 255, 255))
+        text = font.render("Spillet er på pause", True, (255, 255, 255))
         screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2 - text.get_height() // 2))
 
         pygame.display.flip()
@@ -75,7 +74,7 @@ class Balloon(pygame.sprite.Sprite):
         self.image = self.images[self.index]
         self.rect = pygame.Rect(5, 5, 150, 198)
 
-        self.rect = self.image.get_rect()  # Get rect hitbox
+        self.rect = self.image.get_rect()
 
         self.rect.center = (random.randint(self.rect.width // 2 + 25, WIDTH - self.rect.width // 2), HEIGHT)
         self.speed = random.uniform(0.5, 2.5)
@@ -258,7 +257,7 @@ while running:
             time_remaining = max((total_time - elapsed_time) // 1000, 0)
 
             if point == 5:
-                # Winning screen
+
                 with open("balloongame_done.txt.txt", "w") as fil:
                     fil.write("1")
                 game_won_sfx.play()
@@ -266,7 +265,7 @@ while running:
                 game_started = False
                 winning_screen.draw(screen)
                 pygame.display.flip()
-                pygame.time.wait(2000)  #waitin
+                pygame.time.wait(2000)
                 running = False
 
 
@@ -279,7 +278,7 @@ while running:
                 game_over_rect = game_over_text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
                 screen.blit(game_over_text, game_over_rect)
                 pygame.display.flip()
-                pygame.time.wait(2000)  #Waitn
+                pygame.time.wait(2000)
                 running = False
 
 
